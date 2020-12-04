@@ -183,6 +183,7 @@ main{
 
 .main-right{
   width: 100%;
+  padding: 10px;
 }
 
 .el-menu {
