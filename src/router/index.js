@@ -89,7 +89,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to,from,next)=>{
-  document.title = `WangTo标注 - ${to.matched[0].meta.title}`
+  document.title = `望途数据 - ${to.matched[0].meta.title}`
   next()
 })
 

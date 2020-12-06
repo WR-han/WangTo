@@ -34,7 +34,7 @@
           @open="handleOpen"
           @close="handleClose"
           :collapse="isCollapse"
-          background-color="#3C3F41"
+          background-color="#1E1F1C"
           text-color="#BBBBBB"
           active-text-color="#ffffff"
           router
@@ -103,9 +103,11 @@
       </div>
 
       <div class="main-right">
-        <keep-alive>
-          <router-view> </router-view>
-        </keep-alive>
+        <div class="main-right-bg">
+          <keep-alive>
+            <router-view />
+          </keep-alive>
+        </div>
       </div>
     </main>
   </div>
@@ -145,9 +147,18 @@ export default {
 #nav-bar {
   height: 48px;
   width: 100vw;
-  background: rgb(60, 63, 65);
+  background: rgb(39, 40, 34);
   display: flex;
   justify-content: space-between;
+  box-shadow: 0px 1px 5px #000;
+  z-index: 99;
+  position: relative;
+}
+
+.el-radio-button:first-child .el-radio-button__inner {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
 }
 
 .nav-mag-item,
@@ -177,18 +188,27 @@ export default {
   justify-content: space-between;
 }
 
-main{
+main {
   display: flex;
 }
 
-.main-right{
+.main-left {
+  box-shadow: 1px 0px 5px #000;
+}
+
+.main-right {
   width: 100%;
   padding: 10px;
+  background-color: #272822;
+}
+
+.main-right-bg {
+  background-color: rgb(53, 54, 58);
+  height: 100%;
 }
 
 .el-menu {
   border-right: 0 !important;
-  box-shadow: 1px 0px 0px 0px rgb(50, 50, 50);
 }
 
 .el-menu-item-group__title {
