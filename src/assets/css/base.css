@@ -1,0 +1,58 @@
+@import "./normalize.css";
+
+:root {
+  --color-text: white;
+  --color-high-text: #ff5777;
+  --color-tint: #ff8198;
+  --color-background: #272822;
+  --font-size: 14px;
+  --line-height: 1.5;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  user-select: none;
+  /* 禁止用户鼠标在页面上选中文字/图片等 */
+  -webkit-tap-highlight-color: transparent;
+  /* webkit是苹果浏览器引擎，tap点击，highlight背景高亮，color颜色，颜色用数值调节 */
+  background: var(--color-background);
+  color: var(--color-text);
+  /* rem vw/vh */
+  width: 100vw;
+  overflow-x: hidden;
+  font-size: var(--font-size);
+  /* background-color: rgb(40,40,40); */
+  /* padding-bottom: 60px; */
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.el-row {
+  margin-bottom: 15px;
+}
+
+.el-card.is-always-shadow,
+.el-card.is-hover-shadow:focus,
+.el-card.is-hover-shadow:hover,
+.el-progress:hover {
+  box-shadow: 0 2px 12px 0 rgba(255, 255, 255, .3) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
