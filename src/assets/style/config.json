@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {"global":{"$--color-primary":"#DA1622","$--color-warning":"#E6A23C","$--color-white":"#16151A","$--color-text-primary":"#FFFFFF","$--color-text-regular":"#EAE9E7","$--color-text-secondary":"#DA1622","$--color-black":"#FFFFFF","$--background-color-base":"#16151A","$--color-text-placeholder":"#FFFFFF","$--border-color-base":"#DA1622"},"local":{}}
 =======
 {"global":{"$--color-primary":"#66D9EF","$--color-danger":"#F92672","$--color-warning":"#E6DB74","$--color-success":"#A6E22E","$--color-info":"#75715E","$--color-white":"#3C3F41","$--background-color-base":"#272822","$--color-text-placeholder":"#F8F8F2","$--color-text-secondary":"#F8F8F2","$--color-text-regular":"#F8F8F2","$--color-text-primary":"#F8F8F2","$--border-color-base":"#272822","$--border-color-light":"#272822","$--border-color-lighter":"#272822","$--border-color-extra-light":"#272822","$--color-black":"#F8F8F2"},"local":{}}
 >>>>>>> 8363d0258113cf6e64f41bf05000091e5713241e
+=======
+{"global":{"$--color-primary":"#0081F0","$--color-success":"#01B251","$--color-warning":"#FF953E","$--color-danger":"#F25643","$--color-info":"#7A7A7A","$--color-text-primary":"#F5F5F5","$--color-white":"#000000","$--color-black":"#FFFFFF","$--background-color-base":"#000000","$--color-text-regular":"#E0E0E0","$--color-text-secondary":"#8E8E93","$--color-text-placeholder":"#636366","$--border-color-base":"#F5F5F5"},"local":{}}
+>>>>>>> 53ed37f7b1dc0ded3aa20264ed2f8c2d464efce6
