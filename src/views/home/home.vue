@@ -254,6 +254,11 @@ export default {
 
 .home-left-down .el-progress-bar__outer {
   border-radius: 4px;
+  opacity: .5;
+}
+
+.home-left-down .el-progress-bar__outer:hover{
+  opacity: 1;
 }
 
 .home-left-down .el-progress-bar__inner {
