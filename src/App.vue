@@ -29,7 +29,7 @@
     <main>
       <div class="mian-left">
         <el-menu
-          default-active="1"
+          :default-active="this.$route.path"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
@@ -39,70 +39,81 @@
           active-text-color="#ffffff"
           router
         >
-          <el-radio-group v-model="isCollapse" style="width: 100%">
-            <el-radio-button :label="!isCollapse" style="width: 100%">
-              <i v-if="!isCollapse" class="el-icon-s-fold"></i>
-              <i v-else class="el-icon-s-unfold"></i>
-            </el-radio-button>
-            <!-- <el-radio-button :label="true">收起</el-radio-button> -->
-          </el-radio-group>
+          <el-menu-item class="menu-company">
+            <span>公司名称</span>
+          </el-menu-item>
 
-          <el-menu-item index="home">
+          <el-menu-item index="/home">
             <i class="el-icon-receiving"></i>
             <span slot="title">首页</span>
           </el-menu-item>
 
-          <el-menu-item index="statistical" route>
+          <el-menu-item index="/statistical" route>
             <i class="el-icon-receiving"></i>
             <span slot="title">项目概况</span>
           </el-menu-item>
 
-          <el-submenu index="3">
+          <el-submenu index="/3">
             <template slot="title">
               <i class="el-icon-document"></i>
               <span slot="title">我的项目</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="projectManagement">
+              <el-menu-item index="/project/projectManagement">
                 <i class="el-icon-document-checked"></i>
                 项目管理
               </el-menu-item>
-              <el-menu-item index="dataManagement">
+              <el-menu-item index="/project/dataManagement">
                 <i class="el-icon-files"></i>
                 数据管理
               </el-menu-item>
-              <el-menu-item index="templateManagement">
+              <el-menu-item index="/project/templateManagement">
                 <i class="el-icon-reading"></i>
                 模板管理
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
-          <el-submenu index="4">
+          <el-submenu index="/4">
             <template slot="title">
               <i class="el-icon-user"></i>
               <span slot="title">人员管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="markPersonnel">
+              <el-menu-item index="/personnelManagement/markPersonnel">
                 <i class="el-icon-edit"></i>
                 标注员管理
               </el-menu-item>
-              <el-menu-item index="inspectionPersonnel">
+              <el-menu-item index="/personnelManagement/inspectionPersonnel">
                 <i class="el-icon-view"></i>
                 质检员管理
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
-          <el-menu-item index="account">
+          <el-menu-item index="/account">
             <i class="el-icon-office-building"></i>
             <span slot="title">账户信息</span>
           </el-menu-item>
+
+          <el-radio-group
+            class="menu-zoom"
+            v-model="isCollapse"
+            style="width: 100%"
+          >
+            <el-radio-button :label="!isCollapse" style="width: 100%">
+              <i v-if="!isCollapse" class="el-icon-s-fold"></i>
+              <i v-else class="el-icon-s-unfold"></i>
+            </el-radio-button>
+            <!-- <el-radio-button :label="true">收起</el-radio-button> -->
+          </el-radio-group>
         </el-menu>
       </div>
 
       <div class="main-right">
+        <div class="menu-name">
+          <p>{{ this.$route.meta.title }}</p>
+        </div>
         <div class="main-right-bg">
           <keep-alive>
             <router-view />
@@ -155,12 +166,6 @@ export default {
   position: relative;
 }
 
-.el-radio-button:first-child .el-radio-button__inner {
-  border-left: 0 !important;
-  border-right: 0 !important;
-  border-top: 0 !important;
-}
-
 .nav-mag-item,
 .nav-demo {
   margin-top: 15px;
@@ -198,13 +203,25 @@ main {
 
 .main-right {
   width: 100%;
-  padding: 10px;
-  background-color: #272822;
+  background-color: rgb(53, 54, 58);
 }
 
-.main-right-bg {
-  background-color: rgb(53, 54, 58);
-  height: 100%;
+.main-right-bg > div {
+  max-width: 1200px;
+  margin: 0 auto !important;
+}
+
+.menu-name {
+  background: rgb(39, 40, 34);
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+.menu-name p {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  height: 30px;
 }
 
 .el-menu {
@@ -218,10 +235,12 @@ main {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: calc(100vh - 48px);
+  height: 100%;
 }
 
 .el-menu-vertical-demo {
   min-height: calc(100vh - 48px);
+  height: 100%;
 }
 
 .el-submenu .el-menu-item {
@@ -229,8 +248,40 @@ main {
 }
 
 .el-radio-button__inner {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
   width: 100% !important;
   border-radius: 0 !important;
-  font-size: 20px !important;
+  font-size: 17px !important;
+  text-align: left !important;
+  padding: 19px 20px !important;
+}
+
+.el-menu-item,
+.el-submenu__title {
+  height: 38px !important;
+  line-height: 38px !important;
+}
+
+.menu-zoom {
+  position: absolute;
+  bottom: 0;
+}
+
+.menu-company {
+  padding: 0 20px !important;
+  position: relative !important;
+  display: flex;
+  -moz-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+  align-items: center;
+  height: 56px !important;
+}
+.menu-company span {
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: 700;
 }
 </style>

@@ -11,7 +11,7 @@
       :on-success="sb2"
       :on-error="sb3"
       :before-upload="sb4"
-      :on-change="sb5"
+      :on-change="chooseFile"
       :auto-upload="false"
       :http-request="sb6"
     >
@@ -27,6 +27,14 @@
         只能上传jpg/png文件，且不超过500kb
       </div>
     </el-upload>
+
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="fileName" label="文件名称"> </el-table-column>
+      <el-table-column prop="fileSize" label="文件大小" width="180">
+      </el-table-column>
+      <el-table-column prop="fileState" label="文件状态" width="180">
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -39,23 +47,40 @@ export default {
   props: {},
   data() {
     return {
-      fileList: [],
+      // fileList: [],
       abc: 123,
+      fileList: [],
+      allTableData: [],
+      tableData: [],
     };
   },
   methods: {
     submitUpload() {
-      console.log(this.fileList);
+      console.log(123456);
+      console.log(this.allTableData);
 
       let formData = new FormData();
-      this.fileList.forEach((item) => {
-        console.log(item)
+      this.allTableData.forEach((item) => {
+        console.log(item.fileName);
         formData.append("files", item);
+        // console.log(formData)
       });
 
       // console.log(formData)
 
-      axios.post("http://127.0.0.1:8000/test", formData);
+      axios
+        .put(
+          `https://demo1-1302289492.cos.ap-nanjing.myqcloud.com/demo1/${item.fileName}`,
+          formData
+        )
+        .then(
+          (suc) => {
+            console.log(suc);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
       // this.$refs.upload.submit();
     },
     handleRemove(file, fileList) {
@@ -76,10 +101,10 @@ export default {
     sb4(file) {
       console.log("before-upload", file);
     },
-    sb5(file, fileList) {
+    chooseFile(file, fileList) {
       this.handleFile(file.raw);
       // console.log("on-change", file);
-      console.log(this.$refs);
+      // console.log(this.$refs);
     },
     sb6() {
       console.log("123456");
@@ -105,7 +130,13 @@ export default {
             if (file_size) {
               zipEntry.async("blob").then((file) => {
                 let new_file = new File([file], relativePath);
-                vue_obj.fileList.push(new_file);
+                console.log(new_file);
+                vue_obj.allTableData.push({
+                  fileName: new_file.name,
+                  fileSize: `${new_file.size}KB`,
+                  fileState: "解压成功",
+                });
+                vue_obj.tableData = vue_obj.allTableData.slice(0, 10);
                 // vue_obj.$refs.upload.fileList.push(new_file);
               });
             }

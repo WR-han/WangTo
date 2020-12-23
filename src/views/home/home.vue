@@ -224,10 +224,6 @@ export default {
 </script>
 
 <style>
-.home {
-  display: flex;
-  padding: 20px;
-}
 
 .home-left-down #tab-home-fy-first {
   padding-left: 20px;
