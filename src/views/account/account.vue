@@ -40,7 +40,7 @@
 
 <script>
 import JSZip from "jszip";
-import axios from "axios";
+import { PutZipFile } from "@/network/dataManagement.js";
 export default {
   name: "account",
   components: {},
@@ -59,21 +59,16 @@ export default {
       console.log(123456);
       console.log(this.allTableData);
 
-      let formData = new FormData();
       this.allTableData.forEach((item) => {
-        console.log(item.fileName);
-        formData.append("files", item);
-        // console.log(formData)
-      });
-
-      // console.log(formData)
-
-      axios
-        .put(
-          `https://demo1-1302289492.cos.ap-nanjing.myqcloud.com/demo1/${item.fileName}`,
-          formData
-        )
-        .then(
+        let formData = new FormData();
+        console.log(item);
+        // formData.append("files", item.file);
+        PutZipFile(
+          item.fileName,
+          item.file,
+          "q-sign-algorithm=sha1&q-ak=AKIDahmXIGCShOq57Mr202KPJ1TN8EG7I9QQ&q-sign-time=1608802635;1608806235&q-key-time=1608802635;1608806235&q-header-list=&q-url-param-list=&q-signature=2a3ab9c99254ec7837a3b181d32703fa3b44414f",
+          "image/jpg"
+        ).then(
           (suc) => {
             console.log(suc);
           },
@@ -81,6 +76,35 @@ export default {
             console.log(err);
           }
         );
+        // console.log(formData)
+      });
+
+      // console.log(formData)
+
+      // axios
+      //   .put({
+      //     url: `https://demo1-1302289492.cos.ap-nanjing.myqcloud.com/demo1/留学ewm.png`,
+      //     headers: [
+      //       {
+      //         Authorization:
+      //           "q-sign-algorithm=sha1&q-ak=AKIDahmXIGCShOq57Mr202KPJ1TN8EG7I9QQ&q-sign-time=1608794942;1608798542&q-key-time=1608794942;1608798542&q-header-list=&q-url-param-list=&q-signature=addbfe7a67d01c9ad1ab721025e549a3e7247713",
+      //       },
+      //       {
+      //         "Content-Type": "image/png",
+      //       },
+      //     ],
+      //     data: {
+      //       File: formData,
+      //     },
+      //   })
+      //   .then(
+      //     (suc) => {
+      //       console.log(suc);
+      //     },
+      //     (err) => {
+      //       console.log(err);
+      //     }
+      //   );
       // this.$refs.upload.submit();
     },
     handleRemove(file, fileList) {
@@ -135,6 +159,7 @@ export default {
                   fileName: new_file.name,
                   fileSize: `${new_file.size}KB`,
                   fileState: "解压成功",
+                  file:new_file
                 });
                 vue_obj.tableData = vue_obj.allTableData.slice(0, 10);
                 // vue_obj.$refs.upload.fileList.push(new_file);
