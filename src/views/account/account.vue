@@ -59,20 +59,28 @@ export default {
       console.log(123456);
       console.log(this.allTableData);
 
-      let formData = new FormData();
       this.allTableData.forEach((item) => {
-        console.log(item.fileName);
-        formData.append("files", item);
+        let formData = new FormData();
+        console.log(item);
+        // formData.append("files", item.file);
+        PutZipFile(
+          item.fileName,
+          item.file,
+          "q-sign-algorithm=sha1&q-ak=AKIDahmXIGCShOq57Mr202KPJ1TN8EG7I9QQ&q-sign-time=1608802635;1608806235&q-key-time=1608802635;1608806235&q-header-list=&q-url-param-list=&q-signature=2a3ab9c99254ec7837a3b181d32703fa3b44414f",
+          "image/jpg"
+        ).then(
+          (suc) => {
+            console.log(suc);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
         // console.log(formData)
       });
 
       // console.log(formData)
-      PutZipFile(
-        "留学ewm.png",
-        formData,
-        "q-sign-algorithm=sha1&q-ak=AKIDahmXIGCShOq57Mr202KPJ1TN8EG7I9QQ&q-sign-time=1608800781;1608804381&q-key-time=1608800781;1608804381&q-header-list=&q-url-param-list=&q-signature=2356185ff011aedd4711df72836cca56ebad2807",
-        "image/png"
-      );
+
       // axios
       //   .put({
       //     url: `https://demo1-1302289492.cos.ap-nanjing.myqcloud.com/demo1/留学ewm.png`,
@@ -151,6 +159,7 @@ export default {
                   fileName: new_file.name,
                   fileSize: `${new_file.size}KB`,
                   fileState: "解压成功",
+                  file:new_file
                 });
                 vue_obj.tableData = vue_obj.allTableData.slice(0, 10);
                 // vue_obj.$refs.upload.fileList.push(new_file);
