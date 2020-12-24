@@ -40,7 +40,7 @@
 
 <script>
 import JSZip from "jszip";
-import axios from "axios";
+import { PutZipFile } from "@/network/dataManagement.js";
 export default {
   name: "account",
   components: {},
@@ -67,20 +67,36 @@ export default {
       });
 
       // console.log(formData)
-
-      axios
-        .put(
-          `https://demo1-1302289492.cos.ap-nanjing.myqcloud.com/demo1/${item.fileName}`,
-          formData
-        )
-        .then(
-          (suc) => {
-            console.log(suc);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
+      PutZipFile(
+        "留学ewm.png",
+        formData,
+        "q-sign-algorithm=sha1&q-ak=AKIDahmXIGCShOq57Mr202KPJ1TN8EG7I9QQ&q-sign-time=1608800781;1608804381&q-key-time=1608800781;1608804381&q-header-list=&q-url-param-list=&q-signature=2356185ff011aedd4711df72836cca56ebad2807",
+        "image/png"
+      );
+      // axios
+      //   .put({
+      //     url: `https://demo1-1302289492.cos.ap-nanjing.myqcloud.com/demo1/留学ewm.png`,
+      //     headers: [
+      //       {
+      //         Authorization:
+      //           "q-sign-algorithm=sha1&q-ak=AKIDahmXIGCShOq57Mr202KPJ1TN8EG7I9QQ&q-sign-time=1608794942;1608798542&q-key-time=1608794942;1608798542&q-header-list=&q-url-param-list=&q-signature=addbfe7a67d01c9ad1ab721025e549a3e7247713",
+      //       },
+      //       {
+      //         "Content-Type": "image/png",
+      //       },
+      //     ],
+      //     data: {
+      //       File: formData,
+      //     },
+      //   })
+      //   .then(
+      //     (suc) => {
+      //       console.log(suc);
+      //     },
+      //     (err) => {
+      //       console.log(err);
+      //     }
+      //   );
       // this.$refs.upload.submit();
     },
     handleRemove(file, fileList) {
