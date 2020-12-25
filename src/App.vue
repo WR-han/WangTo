@@ -212,23 +212,12 @@ main {
   background-color: #0f3c42c4 !important;
 }
 
-<<<<<<< HEAD
-.main-right-bg{
-  padding: 0 20px;
-}
 
-.menu-name {
-  background: rgb(39, 40, 34);
-  padding: 10px 20px;
-  margin-bottom: 20px;
-}
-=======
 .el-menu-item,
 .el-submenu__title {
   background: var(--corners);
   background-repeat: no-repeat;
   background-size: 3px 1px, 1px 3px;
->>>>>>> f63cbc3fd87207a4ac575bbb683c32364d3442cd
 
   margin: 3px 0;
 }
