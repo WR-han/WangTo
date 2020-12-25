@@ -211,6 +211,10 @@ main {
   margin: 0 auto !important;
 }
 
+.main-right-bg{
+  padding: 0 20px;
+}
+
 .menu-name {
   background: rgb(39, 40, 34);
   padding: 10px 20px;
