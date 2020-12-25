@@ -180,7 +180,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .dataManagement {
 }
 </style>

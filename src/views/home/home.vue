@@ -272,7 +272,8 @@
             </el-button>
           </div>
           <div>
-            <!-- TODO -->
+            <!-- TODO echarts-->
+            <home-echarts></home-echarts>
           </div>
         </el-card>
       </el-row>
@@ -299,9 +300,13 @@
 </template>
 
 <script>
+import HomeEcharts from "components/home/HomeEcharts.vue"
+
 export default {
   name: "home",
-  components: {},
+  components: {
+    HomeEcharts
+  },
   props: {},
   data() {
     return {

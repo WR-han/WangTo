@@ -200,10 +200,13 @@ main {
 
 .main-left {
   border-right: 1px solid #1cdecd80;
-  padding: 0 2px;
 }
 
 .main-left > ul {
+  background: var(--corners);
+  background-repeat: no-repeat;
+  background-size: 3px 1px, 1px 3px;
+
   background-color: #1e1f1c80 !important;
 }
 
@@ -211,7 +214,6 @@ main {
 .el-menu-item:hover {
   background-color: #0f3c42c4 !important;
 }
-
 
 .el-menu-item,
 .el-submenu__title {
