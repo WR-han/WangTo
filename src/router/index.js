@@ -27,7 +27,9 @@ const routes = [{
   {
     name: "personnelManagement",
     path: "/personnelManagement/",
-    // component: inspectionPersonnel,
+    component: {
+      render: (e) => e("router-view")
+    },
     // meta: {
     //   title: "质检员管理"
     // }
@@ -52,6 +54,9 @@ const routes = [{
   {
     name: "project",
     path: "/project/",
+    component: {
+      render: (e) => e("router-view")
+    },
     children: [{
       name: "dataManagement",
       path: "dataManagement",
