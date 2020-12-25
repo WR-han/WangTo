@@ -127,6 +127,117 @@
                 </el-row>
               </el-row>
             </a>
+            <a href="">
+              <el-row>
+                <el-row>
+                  <el-col :md="20" style="text-align: left"> 项目名 </el-col>
+                  <el-col :md="4" style="text-align: right"> 1天后到期 </el-col>
+                </el-row>
+                <el-row :gutter="3">
+                  <el-col class="progress-col" :md="8">
+                    <p>执行</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="70"
+                      status="success"
+                    ></el-progress>
+                  </el-col>
+                  <el-col class="progress-col" :md="8">
+                    <p>审核</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="50"
+                      status="warning"
+                    ></el-progress>
+                  </el-col>
+                  <el-col class="progress-col" :md="8">
+                    <p>验收</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="90"
+                      status="exception"
+                    ></el-progress>
+                  </el-col>
+                </el-row>
+              </el-row>
+            </a>
+            <a href="">
+              <el-row>
+                <el-row>
+                  <el-col :md="20" style="text-align: left"> 项目名 </el-col>
+                  <el-col :md="4" style="text-align: right"> 1天后到期 </el-col>
+                </el-row>
+                <el-row :gutter="3">
+                  <el-col class="progress-col" :md="8">
+                    <p>执行</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="70"
+                      status="success"
+                    ></el-progress>
+                  </el-col>
+                  <el-col class="progress-col" :md="8">
+                    <p>审核</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="50"
+                      status="warning"
+                    ></el-progress>
+                  </el-col>
+                  <el-col class="progress-col" :md="8">
+                    <p>验收</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="90"
+                      status="exception"
+                    ></el-progress>
+                  </el-col>
+                </el-row>
+              </el-row>
+            </a>
+            <a href="">
+              <el-row>
+                <el-row>
+                  <el-col :md="20" style="text-align: left"> 项目名 </el-col>
+                  <el-col :md="4" style="text-align: right"> 1天后到期 </el-col>
+                </el-row>
+                <el-row :gutter="3">
+                  <el-col class="progress-col" :md="8">
+                    <p>执行</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="70"
+                      status="success"
+                    ></el-progress>
+                  </el-col>
+                  <el-col class="progress-col" :md="8">
+                    <p>审核</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="50"
+                      status="warning"
+                    ></el-progress>
+                  </el-col>
+                  <el-col class="progress-col" :md="8">
+                    <p>验收</p>
+                    <el-progress
+                      :text-inside="true"
+                      :stroke-width="35"
+                      :percentage="90"
+                      status="exception"
+                    ></el-progress>
+                  </el-col>
+                </el-row>
+              </el-row>
+            </a>
           </el-tab-pane>
           <el-tab-pane name="home-fy-second">
             <span slot="label"
@@ -161,12 +272,7 @@
             </el-button>
           </div>
           <div>
-            <el-progress
-              type="circle"
-              :percentage="percentage1"
-              :color="colors"
-              :stroke-width="20"
-            ></el-progress>
+            <!-- TODO -->
           </div>
         </el-card>
       </el-row>
@@ -224,7 +330,6 @@ export default {
 </script>
 
 <style>
-
 .home-left-down #tab-home-fy-first {
   padding-left: 20px;
 }
@@ -233,14 +338,8 @@ export default {
   padding-right: 20px;
 }
 
-.home-left-down .el-tabs__item.is-active {
-  background-color: rgb(39, 40, 34);
-  border-radius: 4px 4px 0 0;
-}
-
 .home-left-down .el-tabs__content {
   padding: 15px 20px;
-  background-color: rgb(39, 40, 34);
   border-radius: 0 0 4px 4px;
 }
 
@@ -249,12 +348,12 @@ export default {
 }
 
 .home-left-down .el-progress-bar__outer {
-  border-radius: 4px;
-  opacity: .5;
+  border-radius: 0;
+  opacity: 0.5;
 }
 
-.home-left-down .el-progress-bar__outer:hover{
-  opacity: 1;
+.home-left-down .el-progress-bar__outer:hover {
+  opacity: 0.77;
 }
 
 .home-left-down .el-progress-bar__inner {

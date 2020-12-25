@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div id="wangto">
     <nav id="nav-bar">
       <div class="nav-left">
-        <p style="margin-left: 20px; color: white">公司名称</p>
+        <p style="margin-left: 20px; color: #2fcec0">望途数据</p>
       </div>
       <div class="nav-right">
         <div class="nav-demo">
@@ -27,7 +27,7 @@
     </nav>
 
     <main>
-      <div class="mian-left">
+      <div class="main-left">
         <el-menu
           :default-active="this.$route.path"
           class="el-menu-vertical-demo"
@@ -37,11 +37,12 @@
           background-color="#1E1F1C"
           text-color="#BBBBBB"
           active-text-color="#ffffff"
+          :unique-opened="true"
           router
         >
-          <el-menu-item class="menu-company">
+          <p class="menu-company">
             <span>公司名称</span>
-          </el-menu-item>
+          </p>
 
           <el-menu-item index="/home">
             <i class="el-icon-receiving"></i>
@@ -53,7 +54,7 @@
             <span slot="title">项目概况</span>
           </el-menu-item>
 
-          <el-submenu index="/3">
+          <el-submenu index="/project">
             <template slot="title">
               <i class="el-icon-document"></i>
               <span slot="title">我的项目</span>
@@ -74,7 +75,7 @@
             </el-menu-item-group>
           </el-submenu>
 
-          <el-submenu index="/4">
+          <el-submenu index="/personnelManagement">
             <template slot="title">
               <i class="el-icon-user"></i>
               <span slot="title">人员管理</span>
@@ -158,12 +159,12 @@ export default {
 #nav-bar {
   height: 48px;
   width: 100vw;
-  background: rgb(39, 40, 34);
+  background-color: rgb(39, 40, 34, 0.77) !important;
   display: flex;
   justify-content: space-between;
-  box-shadow: 0px 1px 5px #000;
   z-index: 99;
   position: relative;
+  border-bottom: 1px solid #1cdecd80;
 }
 
 .nav-mag-item,
@@ -198,19 +199,20 @@ main {
 }
 
 .main-left {
-  box-shadow: 1px 0px 5px #000;
+  border-right: 1px solid #1cdecd80;
+  padding: 0 2px;
 }
 
-.main-right {
-  width: 100%;
-  background-color: rgb(53, 54, 58);
+.main-left > ul {
+  background-color: #1e1f1c80 !important;
 }
 
-.main-right-bg > div {
-  max-width: 1200px;
-  margin: 0 auto !important;
+.el-menu-item:focus,
+.el-menu-item:hover {
+  background-color: #0f3c42c4 !important;
 }
 
+<<<<<<< HEAD
 .main-right-bg{
   padding: 0 20px;
 }
@@ -220,72 +222,63 @@ main {
   padding: 10px 20px;
   margin-bottom: 20px;
 }
+=======
+.el-menu-item,
+.el-submenu__title {
+  background: var(--corners);
+  background-repeat: no-repeat;
+  background-size: 3px 1px, 1px 3px;
+>>>>>>> f63cbc3fd87207a4ac575bbb683c32364d3442cd
+
+  margin: 3px 0;
+}
+
+.el-menu-item {
+  background-color: #2a3a3680 !important;
+  color: #1cdecd !important;
+}
+
+.el-menu-item.is-active {
+  color: var(--color-text) !important;
+}
+
+.el-submenu__title {
+  background-color: #2a3a3680 !important;
+}
+
+.el-submenu__title span {
+  color: #1cdecd !important;
+}
+
+.el-menu .el-menu--inline {
+  background-color: #2a3a3680 !important;
+}
+
+.main-right {
+  width: 100%;
+  background-color: rgb(53, 54, 58, 0.77);
+}
+
+.main-right-bg {
+  height: calc(100% - 51px);
+  position: relative;
+  padding: 20px 20px 0 20px;
+}
+
+.menu-name {
+  background: var(--corners) !important;
+  background-repeat: no-repeat !important;
+  background-size: 3px 1px, 1px 3px !important;
+
+  background-color: rgb(39, 40, 34, 0.5) !important;
+  padding: 10px 20px;
+  border-bottom: 1px solid #1cdecd80;
+}
 
 .menu-name p {
   font-size: 16px;
   font-weight: 700;
   line-height: 30px;
   height: 30px;
-}
-
-.el-menu {
-  border-right: 0 !important;
-}
-
-.el-menu-item-group__title {
-  padding: 0 0 0 20px !important;
-}
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: calc(100vh - 48px);
-  height: 100%;
-}
-
-.el-menu-vertical-demo {
-  min-height: calc(100vh - 48px);
-  height: 100%;
-}
-
-.el-submenu .el-menu-item {
-  min-width: 0 !important;
-}
-
-.el-radio-button__inner {
-  border-left: 0 !important;
-  border-right: 0 !important;
-  border-top: 0 !important;
-  width: 100% !important;
-  border-radius: 0 !important;
-  font-size: 17px !important;
-  text-align: left !important;
-  padding: 19px 20px !important;
-}
-
-.el-menu-item,
-.el-submenu__title {
-  height: 38px !important;
-  line-height: 38px !important;
-}
-
-.menu-zoom {
-  position: absolute;
-  bottom: 0;
-}
-
-.menu-company {
-  padding: 0 20px !important;
-  position: relative !important;
-  display: flex;
-  -moz-flex-direction: row;
-  -o-flex-direction: row;
-  flex-direction: row;
-  align-items: center;
-  height: 56px !important;
-}
-.menu-company span {
-  color: #fff !important;
-  font-size: 16px;
-  font-weight: 700;
 }
 </style>

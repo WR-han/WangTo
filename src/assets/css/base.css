@@ -1,12 +1,22 @@
 @import "./normalize.css";
 
 :root {
-  --color-text: white;
-  --color-high-text: #ff5777;
-  --color-tint: #ff8198;
-  --color-background: #272822;
-  --font-size: 14px;
+  --color-text: #FBD045;
+  --color-text-hover: #D6A848;
+  --color-background: #05090A;
+  --font-size: 12px;
   --line-height: 1.5;
+  --corners: linear-gradient(#1cdecd, #1cdecd) left top,
+    linear-gradient(#1cdecd, #1cdecd) left top,
+    linear-gradient(#1cdecd, #1cdecd) right top,
+    linear-gradient(#1cdecd, #1cdecd) right top,
+    linear-gradient(#1cdecd, #1cdecd) left bottom,
+    linear-gradient(#1cdecd, #1cdecd) left bottom,
+    linear-gradient(#1cdecd, #1cdecd) right bottom,
+    linear-gradient(#1cdecd, #1cdecd) right bottom;
+  /* 需要带上👇 且必须写在样式最前面 */
+  /* background-repeat: no-repeat;
+    background-size: 3px 1px, 1px 3px; */
 }
 
 *,
@@ -38,8 +48,25 @@ a {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+
 .el-row {
   margin-bottom: 15px;
+}
+
+.el-card {
+  background-color: #00121C80 !important;
+  border: 1px solid #1CDECD80 !important;
+}
+
+.el-card__header {
+  border-bottom: 1px solid #1CDECD80 !important;
 }
 
 .el-card.is-always-shadow,
@@ -49,14 +76,154 @@ a {
   box-shadow: 0 2px 12px 0 rgba(255, 255, 255, .3) !important;
 }
 
-.el-button--primary , .el-progress-bar__innerText{
-  color: #f5f5f5 !important;
+.el-card {
+  color: #5BBAA4 !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  margin: 0;
+.el-tabs__content {
+  background-color: #00121C80;
+}
+
+.el-tabs__item.is-active {
+  background-color: #00121C80;
+  color: #9DC0C4 !important;
+}
+
+.el-tabs__item:hover {
+  color: #9dc0c4 !important;
+}
+
+.el-button--primary {
+  background: var(--corners) !important;
+  background-repeat: no-repeat !important;
+  background-size: 3px 1px, 1px 3px !important;
+
+  background-color: #104D5280 !important;
+  border-color: #299D92 !important;
+}
+
+/* .el-button--primary,
+.el-progress-bar__innerText {
+  color: #D6A848 !important;
+} */
+
+.el-button--primary {
+  color: var(--color-text) !important
+}
+
+.el-button--primary:hover {
+  color: var(--color-text-hover) !important
+}
+
+.el-button--text {
+  color: var(--color-text) !important;
+}
+
+.el-tabs__nav-wrap::after {
+  background-color: #29CFC080 !important;
+}
+
+.el-card {
+  background-color: #00121c80;
+}
+
+.el-card__body {
+  background: var(--corners) !important;
+  background-repeat: no-repeat !important;
+  background-size: 3px 1px, 1px 3px !important;
+}
+
+.el-card__header {
+  background: var(--corners) !important;
+  background-repeat: no-repeat !important;
+  background-size: 3px 1px, 1px 3px !important;
+}
+
+.el-menu {
+  border-right: 0 !important;
+}
+
+.el-menu-item-group__title {
+  padding: 0 0 0 20px !important;
+}
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: calc(100vh - 48px);
+  height: 100%;
+}
+
+.el-menu-vertical-demo {
+  min-height: calc(100vh - 48px);
+  height: 100%;
+}
+
+.el-submenu .el-menu-item {
+  min-width: 0 !important;
+}
+
+.el-radio-button__inner {
+  border-top: 1px solid #2AC6B880 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  width: 100% !important;
+  border-radius: 0 !important;
+  font-size: 17px !important;
+  text-align: left !important;
+  padding: 19px 20px !important;
+}
+
+.el-radio-button__inner:hover {
+  color: var(--color-text) !important;
+}
+
+
+
+.el-tabs__active-bar {
+  background-color: #9dc0c4 !important;
+}
+
+.menu-zoom {
+  position: absolute;
+  bottom: 0;
+}
+
+.menu-company {
+  padding: 0 20px !important;
+  position: relative !important;
+  display: flex;
+  -moz-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+  align-items: center;
+  height: 56px !important;
+}
+
+.menu-company span {
+  color: var(--color-text) !important;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.el-progress-bar__outer {
+  background-color: #fff !important;
+}
+
+.home-left-down .progress-col:hover .el-progress-bar__innerText {
+  color: #00121c !important;
+}
+
+.grid {
+  background-image: url("../img/base/网格.png");
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  position: absolute;
+  z-index: 0;
+  opacity: 0.2;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
