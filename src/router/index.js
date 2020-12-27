@@ -106,6 +106,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   // console.log(to)
+  // console.log(from)
   document.title = `望途数据 - ${to.meta.title}`
   next()
 })

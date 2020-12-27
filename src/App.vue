@@ -2,7 +2,12 @@
   <div id="wangto">
     <nav id="nav-bar">
       <div class="nav-left">
-        <p style="margin-left: 20px; color: #2fcec0">望途数据</p>
+        <!-- <p style="margin-left: 20px; color: #2fcec0">望途数据</p> -->
+        <img
+          style="width: 145px; margin-top: 6px"
+          src="./assets/img/base/navLogo.png"
+          alt="logo"
+        />
       </div>
       <div class="nav-right">
         <div class="nav-demo">
@@ -41,7 +46,13 @@
           router
         >
           <p class="menu-company">
-            <span>公司名称</span>
+            <span v-if="!isCollapse" style="white-space: nowrap">公司名称</span>
+            <img
+              v-if="isCollapse"
+              src="./assets/img/base/menubarLogo.png"
+              alt="logo"
+              style="width: 24px"
+            />
           </p>
 
           <el-menu-item index="/home">
@@ -116,9 +127,11 @@
           <p>{{ this.$route.meta.title }}</p>
         </div>
         <div class="main-right-bg">
-          <keep-alive>
-            <router-view />
-          </keep-alive>
+          <transition name="change">
+            <keep-alive>
+              <router-view />
+            </keep-alive>
+          </transition>
         </div>
       </div>
     </main>
@@ -137,10 +150,10 @@ export default {
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
   },
   watch: {},
@@ -185,6 +198,7 @@ export default {
   height: 48px;
   line-height: 48px;
   width: 200px;
+  padding-left: 20px;
 }
 
 .nav-right {
@@ -254,6 +268,12 @@ main {
   height: calc(100% - 51px);
   position: relative;
   padding: 20px 20px 0 20px;
+  border: 15px solid transparent;
+  border-image: url("./assets/img/base/边框.png") 39 39 round;
+}
+
+.main-right-bg > div {
+  margin: 0 !important;
 }
 
 .menu-name {
@@ -271,5 +291,17 @@ main {
   font-weight: 700;
   line-height: 30px;
   height: 30px;
+}
+
+.change-enter-active {
+  transition: 0.3s;
+}
+/* .change-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+} */
+.change-enter, .change-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(40px);
+  opacity: 0;
 }
 </style>

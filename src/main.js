@@ -7,8 +7,8 @@ import echarts from 'echarts'
 import 'assets/style/theme/index.css';
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
+Vue.use(ElementUI)
 
 new Vue({
   router,

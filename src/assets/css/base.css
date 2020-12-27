@@ -3,17 +3,23 @@
 :root {
   --color-text: #FBD045;
   --color-text-hover: #D6A848;
+  --color-text-secondary: #9DC0C4;
   --color-background: #05090A;
+  --color-dark-background: #00121C80;
+  --color-line: #1cdecd80;
+  --color-line-secondary: #CADEFF;
+  --color-corners: #b5f8f1;
   --font-size: 12px;
   --line-height: 1.5;
-  --corners: linear-gradient(#1cdecd, #1cdecd) left top,
-    linear-gradient(#1cdecd, #1cdecd) left top,
-    linear-gradient(#1cdecd, #1cdecd) right top,
-    linear-gradient(#1cdecd, #1cdecd) right top,
-    linear-gradient(#1cdecd, #1cdecd) left bottom,
-    linear-gradient(#1cdecd, #1cdecd) left bottom,
-    linear-gradient(#1cdecd, #1cdecd) right bottom,
-    linear-gradient(#1cdecd, #1cdecd) right bottom;
+  --corners:
+    linear-gradient(var(--color-corners), var(--color-corners)) left top,
+    linear-gradient(var(--color-corners), var(--color-corners)) left top,
+    linear-gradient(var(--color-corners), var(--color-corners)) right top,
+    linear-gradient(var(--color-corners), var(--color-corners)) right top,
+    linear-gradient(var(--color-corners), var(--color-corners)) left bottom,
+    linear-gradient(var(--color-corners), var(--color-corners)) left bottom,
+    linear-gradient(var(--color-corners), var(--color-corners)) right bottom,
+    linear-gradient(var(--color-corners), var(--color-corners)) right bottom;
   /* 需要带上👇 且必须写在样式最前面 */
   /* background-repeat: no-repeat;
     background-size: 3px 1px, 1px 3px; */
@@ -39,6 +45,7 @@ body {
   width: 100vw;
   overflow-x: hidden;
   font-size: var(--font-size);
+  position: relative;
   /* background-color: rgb(40,40,40); */
   /* padding-bottom: 60px; */
 }
@@ -61,12 +68,12 @@ h5 {
 }
 
 .el-card {
-  background-color: #00121C80 !important;
-  border: 1px solid #1CDECD80 !important;
+  background-color: var(--color-dark-background) !important;
+  border: 1px solid var(--color-line) !important;
 }
 
 .el-card__header {
-  border-bottom: 1px solid #1CDECD80 !important;
+  border-bottom: 1px solid var(--color-line) !important;
 }
 
 .el-card.is-always-shadow,
@@ -81,16 +88,16 @@ h5 {
 }
 
 .el-tabs__content {
-  background-color: #00121C80;
+  background-color: var(--color-dark-background);
 }
 
 .el-tabs__item.is-active {
-  background-color: #00121C80;
-  color: #9DC0C4 !important;
+  background-color: var(--color-dark-background);
+  color: var(--color-text-secondary) !important;
 }
 
 .el-tabs__item:hover {
-  color: #9dc0c4 !important;
+  color: var(--color-text-secondary) !important;
 }
 
 .el-button--primary {
@@ -99,7 +106,7 @@ h5 {
   background-size: 3px 1px, 1px 3px !important;
 
   background-color: #104D5280 !important;
-  border-color: #299D92 !important;
+  border-color: var(--color-line) !important;
 }
 
 /* .el-button--primary,
@@ -108,11 +115,13 @@ h5 {
 } */
 
 .el-button--primary {
-  color: var(--color-text) !important
+  color: var(--color-text) !important;
+
 }
 
 .el-button--primary:hover {
-  color: var(--color-text-hover) !important
+  color: var(--color-text-hover) !important;
+  opacity: .7;
 }
 
 .el-button--text {
@@ -124,7 +133,7 @@ h5 {
 }
 
 .el-card {
-  background-color: #00121c80;
+  background-color: var(--color-dark-background);
 }
 
 .el-card__body {
@@ -178,10 +187,8 @@ h5 {
   color: var(--color-text) !important;
 }
 
-
-
 .el-tabs__active-bar {
-  background-color: #9dc0c4 !important;
+  background-color: var(--color-text-secondary) !important;
 }
 
 .menu-zoom {
@@ -210,20 +217,85 @@ h5 {
   background-color: #fff !important;
 }
 
-.home-left-down .progress-col:hover .el-progress-bar__innerText {
-  color: #00121c !important;
+.el-input__inner {
+  background: var(--corners) !important;
+  background-repeat: no-repeat !important;
+  background-size: 3px 1px, 1px 3px !important;
+}
+
+.el-select-dropdown__item.selected {
+  color: var(--color-text) !important;
 }
 
 .grid {
   background-image: url("../img/base/网格.png");
   z-index: -1;
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
   padding: 0 20px;
   position: absolute;
-  z-index: 0;
   opacity: 0.2;
   top: 0;
+  bottom: 0;
   left: 0;
-  z-index: -1;
+  right: 0;
+}
+
+.el-scrollbar__wrap {
+  overflow: auto !important;
+}
+
+.el-table {
+  margin-top: 20px !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.el-table th,
+.el-table tr {
+  background-color: var(--color-dark-background) !important;
+}
+
+.v-modal {
+  background-color: #2a446e !important;
+}
+
+.el-dialog {
+  background: var(--corners) !important;
+  background-repeat: no-repeat !important;
+  background-size: 3px 1px, 1px 3px !important;
+
+  background-color: #00121C !important;
+  border: 1px solid var(--color-line) !important;
+}
+
+.el-dialog .el-form-item__content {
+  margin-right: 120px;
+  margin-left: 120px;
+}
+
+.el-dialog .el-form-item__label{
+  width: 120px;
+}
+
+.el-dialog .el-input__inner {
+  width: 100% !important;
+  margin-right: 0 !important;
+}
+
+.el-dialog .el-select {
+  width: 100% !important;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  /* height: 1px; */
+  /* background: red; */
+}
+
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  /* border-radius: 10px; */
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: var(--color-corners);
 }
