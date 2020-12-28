@@ -25,7 +25,11 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      legendArr: this.chartsData.forEach((data) => {
+        return data.name;
+      }),
+    };
   },
   methods: {
     myEcharts() {
@@ -40,11 +44,31 @@ export default {
           trigger: "item",
           formatter: "{c} / {d}%",
         },
+        color: ["#00D7FE", "#43FFEE", "#32FFBE"],
+        legend: {
+          orient: "vertical",
+          right: "4%",
+          data: this.legendArr,
+          textStyle: {
+            color: "#1cdecd",
+          },
+          formatter: (name) => {
+            var nowValue = null;
+            this.chartsData.forEach((data) => {
+              if (data.name == name) {
+                nowValue = data.value;
+              }
+            });
+
+            return `${name} / ${nowValue}`;
+          },
+        },
         series: [
           {
             name: this.chartsName,
             type: "pie",
-            radius: ["55%", "90%"],
+            center: ["30%", "50%"],
+            radius: ["50%", "85%"],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -81,7 +105,7 @@ export default {
 <style scoped>
 .HomeEcharts {
   display: flex;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .chartsStyle {

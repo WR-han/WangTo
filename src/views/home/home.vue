@@ -376,7 +376,7 @@ export default {
         });
         return Num;
       };
-    }
+    },
   },
   created() {},
   mounted() {},
@@ -384,6 +384,11 @@ export default {
 </script>
 
 <style>
+
+.home-right-top .el-card__body{
+  padding: 20px !important;
+}
+
 .home-left-down #tab-home-fy-first {
   padding-left: 20px;
 }
@@ -394,6 +399,10 @@ export default {
 
 .home-left-down .el-tabs__content {
   padding: 15px 20px;
+}
+
+.home-left-down .el-tabs__content #pane-home-fy-first>a>.el-row {
+  border-bottom: 1px dashed var(--color-line);
 }
 
 .home-left-down .el-tabs__header {
@@ -448,6 +457,15 @@ export default {
   padding-left: 20px !important;
 }
 
+.home-right .el-card__body {
+  padding: 10px;
+}
+
+.home-right .el-card__body p{
+  padding-right: 4%;
+  text-align: right;
+}
+
 .home-right .el-progress {
   box-shadow: none !important;
 }
@@ -471,7 +489,7 @@ export default {
   z-index: -1;
 }
 
-.chartsStyle{
+.chartsStyle {
   height: 180px !important;
 }
 </style>

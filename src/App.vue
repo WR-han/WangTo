@@ -240,7 +240,7 @@ main {
 
 .el-menu-item {
   background-color: #2a3a3680 !important;
-  color: #1cdecd !important;
+  color: var(--color-text-light) !important;
 }
 
 .el-menu-item.is-active {
@@ -252,7 +252,7 @@ main {
 }
 
 .el-submenu__title span {
-  color: #1cdecd !important;
+  color: var(--color-text-light) !important;
 }
 
 .el-menu .el-menu--inline {

@@ -72,16 +72,38 @@
     </el-card>
 
     <el-dialog title="添加标注员" :visible.sync="addFormVisible">
-      <el-form :model="addForm" ref="addForm" :rules="addRules">
+      <el-form :model="addForm" ref="addForm" :rules="addRules" status-icon>
         <el-form-item label="用户名称" prop="username">
-          <el-input v-model="addForm.username"></el-input>
+          <el-input
+            placeholder="请输入用户名称"
+            v-model="addForm.username"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="活动区域">
+        <el-form-item label="用户密码" prop="password">
+          <el-input
+            placeholder="请输入用户密码"
+            show-password
+            v-model="addForm.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPassword">
+          <el-input
+            placeholder="请再次输入密码进行确认"
+            show-password
+            v-model="addForm.checkPassword"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="账户状态" prop="state">
+          <el-radio v-model="addForm.state" label="active">激活</el-radio>
+          <el-radio v-model="addForm.state" label="invalid">弃用</el-radio>
+        </el-form-item>
+
+        <!-- <el-form-item label="活动区域">
           <el-select v-model="addForm.region" placeholder="请选择活动区域">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addFormVisible = false"
@@ -105,6 +127,16 @@ export default {
   components: {},
   props: {},
   data() {
+    let checkPassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.addForm.password) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
+
     return {
       searchForm: {
         user: "",
@@ -112,31 +144,42 @@ export default {
         validDate: "",
         registerDate: "",
       },
-      addForm: {},
+      addForm: {
+        username: "",
+        password: "",
+        checkPassword: "",
+        state: "active",
+      },
       addRules: {
         username: [
-          { required: true, message: "请输入活动名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+          { required: true, message: "用户名称为必填项", trigger: "blur" },
+          { min: 2, message: "名称需大于两位", trigger: "blur" },
         ],
+        password: [
+          { required: true, message: "密码为必填项", trigger: "blur" },
+        ],
+        checkPassword: [{ validator: checkPassword, trigger: "blur" }],
       },
       tableData: [],
       addFormVisible: false,
       formLabelWidth: "120px",
     };
   },
+
   methods: {
     onSubmit() {
       console.log("submit!");
     },
     resetForm(formName) {
-      console.log(this.$refs[formName]);
       this.$refs[formName].resetFields();
     },
     submitAddForm(formName) {
+      console.log(this.addForm);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addFormVisible = false;
           alert("submit!");
+          // this.$refs[formName].resetFields();
         } else {
           console.log("error submit!!");
           return false;
