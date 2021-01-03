@@ -1,5 +1,5 @@
 <template>
-  <div id="wangto">
+  <div id="wangto" :class="{ wangtoShow: isShow }">
     <nav id="nav-bar">
       <div class="nav-left">
         <!-- <p style="margin-left: 20px; color: #2fcec0">望途数据</p> -->
@@ -9,7 +9,7 @@
           alt="logo"
         />
       </div>
-      <div class="nav-right">
+      <div class="nav-right" v-show="$route.meta.title != '登录'">
         <div class="nav-demo">
           <el-tooltip effect="dark" content="查看演示动画" placement="left">
             <i class="el-icon-video-camera"></i>
@@ -32,102 +32,109 @@
     </nav>
 
     <main>
-      <div class="main-left">
-        <el-menu
-          :default-active="this.$route.path"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          :collapse="isCollapse"
-          background-color="#1E1F1C"
-          text-color="#BBBBBB"
-          active-text-color="#ffffff"
-          :unique-opened="true"
-          router
-        >
-          <p class="menu-company">
-            <span v-if="!isCollapse" style="white-space: nowrap">公司名称</span>
-            <img
-              v-if="isCollapse"
-              src="./assets/img/base/menubarLogo.png"
-              alt="logo"
-              style="width: 24px"
-            />
-          </p>
-
-          <el-menu-item index="/home">
-            <i class="el-icon-receiving"></i>
-            <span slot="title">首页</span>
-          </el-menu-item>
-
-          <el-menu-item index="/statistical" route>
-            <i class="el-icon-receiving"></i>
-            <span slot="title">项目概况</span>
-          </el-menu-item>
-
-          <el-submenu index="/project">
-            <template slot="title">
-              <i class="el-icon-document"></i>
-              <span slot="title">我的项目</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/project/projectManagement">
-                <i class="el-icon-document-checked"></i>
-                项目管理
-              </el-menu-item>
-              <el-menu-item index="/project/dataManagement">
-                <i class="el-icon-files"></i>
-                数据管理
-              </el-menu-item>
-              <el-menu-item index="/project/templateManagement">
-                <i class="el-icon-reading"></i>
-                模板管理
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
-          <el-submenu index="/personnelManagement">
-            <template slot="title">
-              <i class="el-icon-user"></i>
-              <span slot="title">人员管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/personnelManagement/markPersonnel">
-                <i class="el-icon-edit"></i>
-                标注员管理
-              </el-menu-item>
-              <el-menu-item index="/personnelManagement/inspectionPersonnel">
-                <i class="el-icon-view"></i>
-                质检员管理
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
-          <el-menu-item index="/account">
-            <i class="el-icon-office-building"></i>
-            <span slot="title">账户信息</span>
-          </el-menu-item>
-
-          <el-radio-group
-            class="menu-zoom"
-            v-model="isCollapse"
-            style="width: 100%"
+      <transition name="changeL">
+        <div class="main-left" v-show="$route.meta.title != '登录'">
+          <el-menu
+            :default-active="this.$route.path"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose"
+            :collapse="isCollapse"
+            background-color="#1E1F1C"
+            text-color="#BBBBBB"
+            active-text-color="#ffffff"
+            :unique-opened="true"
+            router
           >
-            <el-radio-button :label="!isCollapse" style="width: 100%">
-              <i v-if="!isCollapse" class="el-icon-s-fold"></i>
-              <i v-else class="el-icon-s-unfold"></i>
-            </el-radio-button>
-            <!-- <el-radio-button :label="true">收起</el-radio-button> -->
-          </el-radio-group>
-        </el-menu>
-      </div>
+            <p class="menu-company">
+              <span v-if="!isCollapse" style="white-space: nowrap"
+                >公司名称</span
+              >
+              <img
+                v-if="isCollapse"
+                src="./assets/img/base/menubarLogo.png"
+                alt="logo"
+                style="width: 24px"
+              />
+            </p>
+
+            <el-menu-item index="/home">
+              <i class="el-icon-receiving"></i>
+              <span slot="title">首页</span>
+            </el-menu-item>
+
+            <el-menu-item index="/statistical" route>
+              <i class="el-icon-receiving"></i>
+              <span slot="title">项目概况</span>
+            </el-menu-item>
+
+            <el-submenu index="/project">
+              <template slot="title">
+                <i class="el-icon-document"></i>
+                <span slot="title">我的项目</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/project/projectManagement">
+                  <i class="el-icon-document-checked"></i>
+                  项目管理
+                </el-menu-item>
+                <el-menu-item index="/project/dataManagement">
+                  <i class="el-icon-files"></i>
+                  数据管理
+                </el-menu-item>
+                <el-menu-item index="/project/templateManagement">
+                  <i class="el-icon-reading"></i>
+                  模板管理
+                </el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
+            <el-submenu index="/personnelManagement">
+              <template slot="title">
+                <i class="el-icon-user"></i>
+                <span slot="title">人员管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/personnelManagement/markPersonnel">
+                  <i class="el-icon-edit"></i>
+                  标注员管理
+                </el-menu-item>
+                <el-menu-item index="/personnelManagement/inspectionPersonnel">
+                  <i class="el-icon-view"></i>
+                  质检员管理
+                </el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+
+            <el-menu-item index="/account">
+              <i class="el-icon-office-building"></i>
+              <span slot="title">账户信息</span>
+            </el-menu-item>
+
+            <el-radio-group
+              class="menu-zoom"
+              v-model="isCollapse"
+              style="width: 100%"
+            >
+              <el-radio-button :label="!isCollapse" style="width: 100%">
+                <i v-if="!isCollapse" class="el-icon-s-fold"></i>
+                <i v-else class="el-icon-s-unfold"></i>
+              </el-radio-button>
+              <!-- <el-radio-button :label="true">收起</el-radio-button> -->
+            </el-radio-group>
+          </el-menu>
+        </div>
+      </transition>
 
       <div class="main-right">
-        <div class="menu-name">
+        <div class="menu-name" v-show="$route.meta.title != '登录'">
           <p>{{ this.$route.meta.title }}</p>
         </div>
-        <div class="main-right-bg">
-          <transition name="change">
+        <div
+          class="main-right-bg"
+          :class="{ is_login: $route.meta.title == '登录' }"
+        >
+          <transition name="changeR">
             <keep-alive>
               <router-view />
             </keep-alive>
@@ -146,6 +153,7 @@ export default {
   data() {
     return {
       isCollapse: false,
+      isShow: false,
     };
   },
   methods: {
@@ -155,6 +163,9 @@ export default {
     handleClose(key, keyPath) {
       // console.log(key, keyPath);
     },
+    sleep(time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    },
   },
   watch: {},
   computed: {},
@@ -162,12 +173,29 @@ export default {
     // console.log(this.$route);
     // console.log(this.$router);
   },
-  mounted() {},
+  mounted() {
+    this.sleep(300).then(() => {
+      this.isShow = true;
+    });
+  },
 };
 </script>
 
 <style>
 @import "assets/css/base.css";
+
+#wangto {
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.wangtoShow {
+  opacity: 1 !important;
+}
+
+.is_login {
+  height: calc(100vh - 48px) !important;
+}
 
 #nav-bar {
   height: 48px;
@@ -293,15 +321,21 @@ main {
   height: 30px;
 }
 
-.change-enter-active {
+.changeR-enter-active {
   transition: 0.3s;
 }
-/* .change-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-} */
-.change-enter, .change-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
+.changeR-enter,
+.changeR-leave-to {
   transform: translateX(40px);
+  opacity: 0;
+}
+
+.changeL-enter-active {
+  transition: 0.3s;
+}
+.changeL-enter,
+.changeL-leave-to {
+  transform: translateX(-40px);
   opacity: 0;
 }
 </style>

@@ -106,6 +106,10 @@
   min-width: 0 !important;
 }
 
+.el-submenu__title:hover {
+  background-color: #0f3c42c4 !important;
+}
+
 .el-radio {
   color: var(--color-line-secondary) !important;
 }
@@ -249,10 +253,10 @@
   width: 100% !important;
 }
 
-.el-dialog__headerbtn .el-dialog__close{
+.el-dialog__headerbtn .el-dialog__close {
   color: var(--color-text) !important;
 }
 
-.el-dialog__headerbtn:hover .el-dialog__close{
+.el-dialog__headerbtn:hover .el-dialog__close {
   color: var(--color-text-hover) !important;
 }

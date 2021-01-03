@@ -97,14 +97,8 @@
           <el-radio v-model="addForm.state" label="active">激活</el-radio>
           <el-radio v-model="addForm.state" label="invalid">弃用</el-radio>
         </el-form-item>
-
-        <!-- <el-form-item label="活动区域">
-          <el-select v-model="addForm.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item> -->
       </el-form>
+      
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addFormVisible = false"
           >取 消</el-button

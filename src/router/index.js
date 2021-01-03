@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import $vuex from "../store/index.js"
 
 Vue.use(VueRouter)
 
 const home = () => import("views/home/home.vue")
+const login = () => import("views/login/login.vue")
 const inspectionPersonnel = () => import("views/personnel/inspectionPersonnel/inspectionPersonnel.vue")
 const markPersonnel = () => import("views/personnel/markPersonnel/markPersonnel.vue")
 const dataManagement = () => import("views/project/dataManagement/dataManagement.vue")
@@ -14,7 +16,15 @@ const account = () => import("views/account/account.vue")
 
 const routes = [{
     path: "",
-    redirect: "/home"
+    redirect: "/login"
+  },
+  {
+    name: "login",
+    path: "/login",
+    component: login,
+    meta: {
+      title: "登录"
+    }
   },
   {
     name: "home",
@@ -105,10 +115,19 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // console.log(to)
-  // console.log(from)
   document.title = `望途数据 - ${to.meta.title}`
-  next()
+  if (to.fullPath != "/login") {
+    if (!localStorage.token) {
+      router.replace("/login")
+    } else if (!$vuex.state.token) {
+      $vuex.state.token = localStorage.token
+      next()
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

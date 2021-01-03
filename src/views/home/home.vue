@@ -2,11 +2,17 @@
   <el-row :gutter="10" class="home">
     <el-col :md="16" class="home-left">
       <el-row :gutter="10" class="home-left-top">
-        <el-button type="primary">
+        <el-button
+          type="primary"
+          @click="changePage('/project/dataManagement')"
+        >
           <i class="el-icon-folder-add"></i>
           数据上传
         </el-button>
-        <el-button type="primary">
+        <el-button
+          type="primary"
+          @click="changePage('/project/projectManagement')"
+        >
           <i class="el-icon-edit-outline"></i>
           创建项目
         </el-button>
@@ -365,6 +371,9 @@ export default {
     changeButton(type) {
       this.chartShow = type;
     },
+    changePage(page) {
+      this.$router.replace(page);
+    },
   },
   watch: {},
   computed: {
@@ -384,8 +393,7 @@ export default {
 </script>
 
 <style>
-
-.home-right-top .el-card__body{
+.home-right-top .el-card__body {
   padding: 20px !important;
 }
 
@@ -401,7 +409,7 @@ export default {
   padding: 15px 20px;
 }
 
-.home-left-down .el-tabs__content #pane-home-fy-first>a>.el-row {
+.home-left-down .el-tabs__content #pane-home-fy-first > a > .el-row {
   border-bottom: 1px dashed var(--color-line);
 }
 
@@ -461,7 +469,7 @@ export default {
   padding: 10px;
 }
 
-.home-right .el-card__body p{
+.home-right .el-card__body p {
   padding-right: 4%;
   text-align: right;
 }
