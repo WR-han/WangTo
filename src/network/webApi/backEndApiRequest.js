@@ -1,11 +1,11 @@
 import axios from "axios"
-import $vuex from "../store/index.js"
-import $router from "../router/index.js"
+import $vuex from "../../store/index.js"
+import $router from "../../router/index.js"
 
 export function request(config) {
 
   const instance = axios.create({
-    // baseURL: "https://demo1-1302289492.cos.ap-nanjing.myqcloud.com",
+    baseURL: "http://wangtoapi.wrhan.cn/v1/background",
     timeout: 5000
   })
 

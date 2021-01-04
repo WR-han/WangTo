@@ -1,6 +1,6 @@
 import {
   request
-} from "./request.js";
+} from "../webApi/cosApiRequest";
 
 export function PutZipFile(fileName, fileDate,Token,type) {
   return request({

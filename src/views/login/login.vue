@@ -6,7 +6,7 @@
       </div>
       <div class="login-box-main">
         <img
-          src="../../assets/img/login/login_bg.png?1"
+          src="http://canadasummer.cn/static/images/1/123.png"
           alt=""
           class="login-bg"
         />
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { Login } from "@/network/login.js";
+import { Login } from "@/network/webApi/login.js";
 export default {
   name: "login",
   components: {},
@@ -80,6 +80,14 @@ export default {
               // console.log(succ);
               switch (succ.code) {
                 case 200:
+                  if (this.loginForm.username == this.loginForm.password) {
+                    this.$notify({
+                      title: "提醒",
+                      message: "您的账号密码为初始密码，请点击\"账户信息\"修改",
+                      duration: 0,
+                      type: 'warning'
+                    });
+                  }
                   this.$store.commit("login", succ.data.token);
                   this.$router.replace("/home");
                   this.$message({

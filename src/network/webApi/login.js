@@ -1,10 +1,10 @@
 import {
   request
-} from "./request.js";
+} from "./backEndApiRequest.js";
 
 export function Login(account, password) {
   return request({
-    url: `http://wangtoapi.wrhan.cn/v1/background/account`,
+    url: `/account`,
     method: "post",
     data: {
       account,

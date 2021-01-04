@@ -22,11 +22,18 @@
           </el-badge>
         </div>
 
-        <div class="nav-avatar">
-          <el-avatar
-            size="medium"
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          ></el-avatar>
+        <div class="nav-avatar" @click="logout">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="点击登出账号"
+            placement="bottom"
+          >
+            <el-avatar
+              size="medium"
+              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+            ></el-avatar>
+          </el-tooltip>
         </div>
       </div>
     </nav>
@@ -165,6 +172,11 @@ export default {
     },
     sleep(time) {
       return new Promise((resolve) => setTimeout(resolve, time));
+    },
+    logout() {
+      localStorage.removeItem("token");
+      this.$store.state.token = null;
+      this.$router.replace("/login");
     },
   },
   watch: {},

@@ -40,7 +40,7 @@
 
 <script>
 import JSZip from "jszip";
-import { PutZipFile } from "@/network/dataManagement.js";
+import { PutZipFile } from "@/network/webApi/dataManagement.js";
 export default {
   name: "dataManagement",
   components: {},

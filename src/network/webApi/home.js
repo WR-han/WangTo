@@ -1,6 +1,6 @@
 import {
   request
-} from "./request.js";
+} from "./backEndApiRequest.js";
 
 export function GetHomeMultiData() {
   return request({
