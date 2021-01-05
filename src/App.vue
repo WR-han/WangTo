@@ -96,17 +96,17 @@
               </el-menu-item-group>
             </el-submenu>
 
-            <el-submenu index="/personnelManagement">
+            <el-submenu index="/workersManagement">
               <template slot="title">
                 <i class="el-icon-user"></i>
                 <span slot="title">人员管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/personnelManagement/markPersonnel">
+                <el-menu-item index="/workersManagement/markWorkers">
                   <i class="el-icon-edit"></i>
                   标注员管理
                 </el-menu-item>
-                <el-menu-item index="/personnelManagement/inspectionPersonnel">
+                <el-menu-item index="/workersManagement/inspectionWorkers">
                   <i class="el-icon-view"></i>
                   质检员管理
                 </el-menu-item>

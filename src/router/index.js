@@ -6,8 +6,8 @@ Vue.use(VueRouter)
 
 const home = () => import("views/home/home.vue")
 const login = () => import("views/login/login.vue")
-const inspectionPersonnel = () => import("views/personnel/inspectionPersonnel/inspectionPersonnel.vue")
-const markPersonnel = () => import("views/personnel/markPersonnel/markPersonnel.vue")
+const inspectionWorkers = () => import("views/workers/inspectionWorkers/inspectionWorkers.vue")
+const markWorkers = () => import("views/workers/markWorkers/markWorkers.vue")
 const dataManagement = () => import("views/project/dataManagement/dataManagement.vue")
 const projectManagement = () => import("views/project/projectManagement/projectManagement.vue")
 const templateManagement = () => import("views/project/templateManagement/templateManagement.vue")
@@ -35,8 +35,8 @@ const routes = [{
     }
   },
   {
-    name: "personnelManagement",
-    path: "/personnelManagement/",
+    name: "WorkersManagement",
+    path: "/WorkersManagement/",
     component: {
       render: (e) => e("router-view")
     },
@@ -44,17 +44,17 @@ const routes = [{
     //   title: "质检员管理"
     // }
     children: [{
-        name: "inspectionPersonnel",
-        path: "inspectionPersonnel",
-        component: inspectionPersonnel,
+        name: "inspectionWorkers",
+        path: "inspectionWorkers",
+        component: inspectionWorkers,
         meta: {
           title: "质检员管理"
         }
       },
       {
-        name: "markPersonnel",
-        path: "markPersonnel",
-        component: markPersonnel,
+        name: "markWorkers",
+        path: "markWorkers",
+        component: markWorkers,
         meta: {
           title: "标注员管理"
         }

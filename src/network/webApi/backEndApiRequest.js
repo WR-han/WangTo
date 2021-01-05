@@ -5,7 +5,8 @@ import $router from "../../router/index.js"
 export function request(config) {
 
   const instance = axios.create({
-    baseURL: "http://wangtoapi.wrhan.cn/v1/background",
+    // baseURL: "http://wangtoapi.wrhan.cn/v1/background",
+    baseURL: "http://127.0.0.1:8000/v1/background",
     timeout: 5000
   })
 

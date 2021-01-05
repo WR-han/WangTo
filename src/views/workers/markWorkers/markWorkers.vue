@@ -1,5 +1,5 @@
 <template>
-  <div class="markPersonnel">
+  <div class="markWorkers">
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span><i class="el-icon-search"></i> 数据检索</span>
@@ -117,7 +117,7 @@
 
 <script>
 export default {
-  name: "markPersonnel",
+  name: "markWorkers",
   components: {},
   props: {},
   data() {
@@ -189,16 +189,16 @@ export default {
 </script>
 
 <style>
-.markPersonnel .el-input__inner {
+.markWorkers .el-input__inner {
   width: 120px;
   margin-right: 20px;
 }
 
-.markPersonnel .el-input__suffix {
+.markWorkers .el-input__suffix {
   right: 25px !important;
 }
 
-.markPersonnel .msg-search .el-form-item {
+.markWorkers .msg-search .el-form-item {
   margin-bottom: 0;
 }
 </style>
