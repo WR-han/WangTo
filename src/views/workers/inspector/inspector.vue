@@ -1,12 +1,12 @@
 <template>
-  <div class="inspectionWorkers">
+  <div class="inspector">
     
   </div>
 </template>
 
 <script>
 export default {
-  name:"inspectionWorkers",
+  name:"inspector",
   components: {},
   props: {},
   data() {
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style>
-.inspectionWorkers{
+.inspector{
 
 }
 </style>

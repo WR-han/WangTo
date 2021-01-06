@@ -96,6 +96,7 @@ export default {
                   });
                   break;
                 case 401:
+                  console.log(succ.msg);
                   this.$message({
                     message: succ.data,
                     type: "error",

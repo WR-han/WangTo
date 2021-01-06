@@ -102,11 +102,11 @@
                 <span slot="title">人员管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/workersManagement/markWorkers">
+                <el-menu-item index="/workersManagement/operator">
                   <i class="el-icon-edit"></i>
                   标注员管理
                 </el-menu-item>
-                <el-menu-item index="/workersManagement/inspectionWorkers">
+                <el-menu-item index="/workersManagement/inspector">
                   <i class="el-icon-view"></i>
                   质检员管理
                 </el-menu-item>
