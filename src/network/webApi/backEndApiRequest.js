@@ -1,5 +1,5 @@
 import axios from "axios"
-import $vuex from "../../store/index.js"
+import $store from "../../store/index.js"
 import $router from "../../router/index.js"
 
 export function request(config) {
@@ -13,8 +13,8 @@ export function request(config) {
   //拦截器
   instance.interceptors.request.use(
     config => {
-      if ($vuex.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
-        config.headers.Authorization = $vuex.state.token;
+      if ($store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
+        config.headers.Authorization = $store.state.token;
       }
       return config
     },
@@ -25,11 +25,14 @@ export function request(config) {
 
   instance.interceptors.response.use(
     res => {
-      if (res.data.code == 401) {
-        $vuex.commit("logout")
+      if (res.data.code == 401) { // token过期
+        $store.commit("logout")
         if ($router.currentRoute.fullPath != "/login") {
           $router.replace("/login")
         }
+      }
+      if (res.data.token){ // token更新
+        $store.commit("login", res.data.token);
       }
       return res.data
     },

@@ -1,10 +1,10 @@
 import {
   request
-} from "./backendApiRequest.js";
+} from "../backendApiRequest.js";
 
 export function Login(account, password) {
   return request({
-    url: `/account`,
+    url: "/Login",
     method: "post",
     data: {
       account,

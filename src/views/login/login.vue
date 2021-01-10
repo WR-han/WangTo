@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { Login } from "@/network/webApi/login.js";
+import { Login } from "@/network/webApi/login/login.js";
 export default {
   name: "login",
   components: {},
@@ -88,7 +88,7 @@ export default {
                       type: 'warning'
                     });
                   }
-                  this.$store.commit("login", succ.data.token);
+                  // this.$store.commit("login", succ.data.token);
                   this.$router.replace("/home");
                   this.$message({
                     message: "登陆成功",

@@ -4,6 +4,7 @@
       <div slot="header" class="clearfix">
         <span><i class="el-icon-search"></i> 数据检索</span>
       </div>
+
       <div>
         <el-form
           :inline="true"
@@ -18,12 +19,14 @@
               placeholder="请输入账号名"
             ></el-input>
           </el-form-item>
+
           <el-form-item label="状态:" prop="isactive">
             <el-select v-model="searchForm.isactive" placeholder="选择账号状态">
               <el-option label="有效" value="true"></el-option>
               <el-option label="无效" value="false"></el-option>
             </el-select>
           </el-form-item>
+
           <el-form-item label="到期时间:" prop="validDate">
             <el-date-picker
               type="date"
@@ -32,6 +35,7 @@
               style="width: 100%"
             ></el-date-picker>
           </el-form-item>
+
           <el-form-item label="注册时间:" prop="registerDate">
             <el-date-picker
               type="date"
@@ -40,6 +44,7 @@
               style="width: 100%"
             ></el-date-picker>
           </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="onSubmit">查询</el-button>
             <el-button type="primary" @click="resetForm('searchForm')"
@@ -49,36 +54,68 @@
         </el-form>
       </div>
     </el-card>
+
     <br />
+
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span><i class="el-icon-document-copy"></i> 数据详情</span>
       </div>
+
       <div>
         <el-button @click="addFormVisible = true" type="primary">
           <i class="el-icon-user"></i>
           新增标注员
         </el-button>
       </div>
+
       <div>
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="date" label="日期" width="180">
+        <el-table :data="operatorData" style="width: 100%">
+          <el-table-column
+            v-for="(item, index) in tableHeader"
+            :key="index"
+            :prop="item[0]"
+            :label="item[1]"
+          ></el-table-column>
+
+          <el-table-column prop="creator.nick_name" label="创建者" width="180">
           </el-table-column>
-          <el-table-column prop="name" label="姓名" width="180">
+
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                @click="handleEdit(scope.$index, scope.row)"
+                >编辑</el-button
+              >
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                >删除</el-button
+              >
+            </template>
           </el-table-column>
-          <el-table-column prop="address" label="地址"> </el-table-column>
         </el-table>
       </div>
     </el-card>
 
     <el-dialog title="添加标注员" :visible.sync="addFormVisible">
       <el-form :model="addForm" ref="addForm" :rules="addRules" status-icon>
-        <el-form-item label="用户名称" prop="username">
+        <el-form-item label="用户名称" prop="nick_name">
           <el-input
             placeholder="请输入用户名称"
-            v-model="addForm.username"
+            v-model="addForm.nick_name"
           ></el-input>
         </el-form-item>
+
+        <el-form-item label="手机号" prop="account">
+          <el-input
+            placeholder="手机号即为登陆账号"
+            v-model="addForm.account"
+          ></el-input>
+        </el-form-item>
+
         <el-form-item label="用户密码" prop="password">
           <el-input
             placeholder="请输入用户密码"
@@ -86,6 +123,7 @@
             v-model="addForm.password"
           ></el-input>
         </el-form-item>
+
         <el-form-item label="确认密码" prop="checkPassword">
           <el-input
             placeholder="请再次输入密码进行确认"
@@ -93,12 +131,91 @@
             v-model="addForm.checkPassword"
           ></el-input>
         </el-form-item>
-        <el-form-item label="账户状态" prop="state">
+
+        <el-form-item label="到期时间">
+          <el-col>
+            <el-date-picker
+              type="date"
+              placeholder="不填写默认为未激活 / 无效"
+              v-model="addForm.expire_time"
+              style="width: 100%"
+              :picker-options="pickerOptions"
+            ></el-date-picker>
+          </el-col>
+        </el-form-item>
+
+        <!-- <el-form-item label="账户状态" prop="state">
           <el-radio v-model="addForm.state" label="active">激活</el-radio>
           <el-radio v-model="addForm.state" label="invalid">弃用</el-radio>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
-      
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addFormVisible = false"
+          >取 消</el-button
+        >
+        <el-button type="primary" @click="submitAddForm('addForm')"
+          >确 定</el-button
+        >
+      </div>
+    </el-dialog>
+
+    <el-dialog title="修改标注员信息" :visible.sync="changeFormVisible">
+      <el-form :model="addForm" ref="addForm" :rules="addRules" status-icon>
+        <el-form-item label="用户名称" prop="nick_name">
+          <el-input
+            placeholder="请输入用户名称"
+            v-model="addForm.nick_name"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="手机号" prop="account">
+          <el-input
+            placeholder="手机号即为登陆账号"
+            v-model="addForm.account"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="用户密码" prop="password">
+          <el-input
+            placeholder="请输入用户密码"
+            show-password
+            v-model="addForm.password"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="确认密码" prop="checkPassword">
+          <el-input
+            placeholder="请再次输入密码进行确认"
+            show-password
+            v-model="addForm.checkPassword"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="到期时间">
+          <el-col>
+            <el-date-picker
+              type="date"
+              placeholder="不填写默认为未激活 / 无效"
+              v-model="addForm.expire_time"
+              style="width: 100%"
+              :picker-options="pickerOptions"
+            ></el-date-picker>
+          </el-col>
+        </el-form-item>
+
+        <!-- <el-select v-model="value" clearable placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select> -->
+
+      </el-form>
+
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addFormVisible = false"
           >取 消</el-button
@@ -110,12 +227,10 @@
     </el-dialog>
   </div>
 </template>
-      </div>
-    </el-card>
-  </div>
-</template>
+
 
 <script>
+import { getOperators } from "@/network/webApi/workersManagement/operator.js";
 export default {
   name: "operator",
   components: {},
@@ -132,31 +247,102 @@ export default {
     };
 
     return {
+      addFormVisible: false,
+      changeFormVisible: false,
+      formLabelWidth: "120px",
+
       searchForm: {
         user: "",
         isactive: "",
         validDate: "",
         registerDate: "",
       },
+
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now();
+        },
+        shortcuts: [
+          {
+            text: "30天后",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "90天后",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 120);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "180天后",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 180);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "1年后",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 365);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
+
       addForm: {
-        username: "",
+        nick_name: "",
         password: "",
         checkPassword: "",
         state: "active",
+        expire_time: "",
+        account: "",
+        creator: "",
       },
       addRules: {
-        username: [
+        nick_name: [
           { required: true, message: "用户名称为必填项", trigger: "blur" },
           { min: 2, message: "名称需大于两位", trigger: "blur" },
+        ],
+        account: [
+          { required: true, message: "用户手机号为必填项", trigger: "blur" },
+          { max: 11, min: 11, message: "请输入11位手机号码", trigger: "blur" },
         ],
         password: [
           { required: true, message: "密码为必填项", trigger: "blur" },
         ],
         checkPassword: [{ validator: checkPassword, trigger: "blur" }],
+        creator: [
+          { required: true, message: "管理员为必填项", trigger: "blur" },
+        ],
       },
-      tableData: [],
-      addFormVisible: false,
-      formLabelWidth: "120px",
+
+      changeForm: {
+        state: "active",
+        expire_time: "",
+        creator: "",
+      },
+      changeRules: {
+        account: [
+          { required: true, message: "用户手机号为必填项", trigger: "blur" },
+          { max: 11, min: 11, message: "请输入11位手机号码", trigger: "blur" },
+        ],
+        creator: [
+          { required: true, message: "管理员为必填项", trigger: "blur" },
+        ],
+      },
+
+      leaderData: [],
+      operatorData: [],
+      tableHeader: [],
     };
   },
 
@@ -172,6 +358,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addFormVisible = false;
+          this.addForm = [];
           alert("submit!");
           // this.$refs[formName].resetFields();
         } else {
@@ -180,10 +367,37 @@ export default {
         }
       });
     },
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+    },
   },
   watch: {},
   computed: {},
-  created() {},
+  created() {
+    getOperators({ ordering: "-creator" }).then(
+      (res) => {
+        this.tableHeader = res.field_header;
+        this.operatorData = res.data;
+        this.operatorData.forEach((item) => {
+          switch (item.state) {
+            case "active":
+              item.state = "有效";
+              break;
+            case "invalid":
+              item.state = "无效";
+              break;
+          }
+        });
+        console.log(this.operatorData);
+      },
+      (err) => {
+        alert(err);
+      }
+    );
+  },
   mounted() {},
 };
 </script>

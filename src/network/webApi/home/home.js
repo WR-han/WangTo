@@ -1,6 +1,6 @@
 import {
   request
-} from "./backEndApiRequest.js";
+} from "../backEndApiRequest.js";
 
 export function GetHomeMultiData() {
   return request({
@@ -8,12 +8,15 @@ export function GetHomeMultiData() {
   })
 }
 
-export function GetHomeGoodsData(type, page) {
+export function GetHomeGoodsData(search, field, limit, offset, ordering) {
   return request({
     url: '/home/data',
     params: {
-      type,
-      page,
+      search,
+      field,
+      limit,
+      offset,
+      ordering
     }
   })
 }

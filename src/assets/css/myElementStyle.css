@@ -35,6 +35,23 @@
   color: var(--color-text-secondary) !important;
 }
 
+/* .el-button {
+  background: var(--corners) !important;
+  background-repeat: no-repeat !important;
+  background-size: 3px 1px, 1px 3px !important;
+} */
+
+/* .el-button--danger {
+  background-color: #FF4B3D !important;
+  border-color: var(--color-border-hover) !important;
+} */
+
+.el-button:focus,
+.el-button:hover {
+  color: var(--color-border-hover) !important;
+  border-color: var(--color-border-hover) !important;
+}
+
 .el-button--primary {
   background: var(--corners) !important;
   background-repeat: no-repeat !important;
@@ -259,4 +276,42 @@
 
 .el-dialog__headerbtn:hover .el-dialog__close {
   color: var(--color-text-hover) !important;
+}
+
+.el-date-table td.available:hover {
+  color: var(--color-text) !important;
+}
+
+.el-month-table td .cell:hover {
+  color: var(--color-text) !important;
+}
+
+.el-date-picker__header-label.active,
+.el-date-picker__header-label:hover {
+  color: var(--color-text) !important;
+}
+
+.el-year-table td .cell:hover,
+.el-year-table td.current:not(.disabled) .cell {
+  color: var(--color-text-hover) !important;
+}
+
+.el-year-table td.today .cell {
+  color: var(--color-text-hover) !important;
+}
+
+.el-month-table td.today .cell {
+  color: var(--color-text-hover) !important;
+}
+
+.el-date-table td.today span {
+  color: var(--color-text-hover) !important;
+}
+
+.el-date-table td.current:not(.disabled) span {
+  color: var(--color-text-hover) !important;
+}
+
+.el-picker-panel__shortcut:hover {
+  color: var(--color-text) !important;
 }
