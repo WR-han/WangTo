@@ -46,7 +46,9 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button type="primary" @click="submitAddForm('searchForm')"
+              >查询</el-button
+            >
             <el-button type="primary" @click="resetForm('searchForm')"
               >重置</el-button
             >
@@ -81,7 +83,7 @@
           <el-table-column prop="creator.nick_name" label="创建者" width="180">
           </el-table-column>
 
-          <el-table-column label="操作">
+          <el-table-column width="180" label="操作">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -121,6 +123,7 @@
             placeholder="请输入用户密码"
             show-password
             v-model="addForm.password"
+            autocomplete="new-password"
           ></el-input>
         </el-form-item>
 
@@ -144,6 +147,22 @@
           </el-col>
         </el-form-item>
 
+        <el-form-item label="管理员">
+          <el-select v-model="addForm.leader" filterable placeholder="请选择/输入可搜索">
+            <el-option
+              v-for="item in leaderDrop"
+              :key="item.id"
+              :label="item.nick_name"
+              :value="item.id"
+            >
+              <span style="float: left">{{ item.nick_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{
+                item.account
+              }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <!-- <el-form-item label="账户状态" prop="state">
           <el-radio v-model="addForm.state" label="active">激活</el-radio>
           <el-radio v-model="addForm.state" label="invalid">弃用</el-radio>
@@ -161,34 +180,16 @@
     </el-dialog>
 
     <el-dialog title="修改标注员信息" :visible.sync="changeFormVisible">
-      <el-form :model="addForm" ref="addForm" :rules="addRules" status-icon>
+      <el-form
+        :model="changeForm"
+        ref="changeForm"
+        :rules="changeRules"
+        status-icon
+      >
         <el-form-item label="用户名称" prop="nick_name">
           <el-input
             placeholder="请输入用户名称"
             v-model="addForm.nick_name"
-          ></el-input>
-        </el-form-item>
-
-        <el-form-item label="手机号" prop="account">
-          <el-input
-            placeholder="手机号即为登陆账号"
-            v-model="addForm.account"
-          ></el-input>
-        </el-form-item>
-
-        <el-form-item label="用户密码" prop="password">
-          <el-input
-            placeholder="请输入用户密码"
-            show-password
-            v-model="addForm.password"
-          ></el-input>
-        </el-form-item>
-
-        <el-form-item label="确认密码" prop="checkPassword">
-          <el-input
-            placeholder="请再次输入密码进行确认"
-            show-password
-            v-model="addForm.checkPassword"
           ></el-input>
         </el-form-item>
 
@@ -213,14 +214,13 @@
           >
           </el-option>
         </el-select> -->
-
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addFormVisible = false"
+        <el-button type="primary" @click="changeFormVisible = false"
           >取 消</el-button
         >
-        <el-button type="primary" @click="submitAddForm('addForm')"
+        <el-button type="primary" @click="submitAddForm('changeForm')"
           >确 定</el-button
         >
       </div>
@@ -231,6 +231,7 @@
 
 <script>
 import { getOperators } from "@/network/webApi/workersManagement/operator.js";
+import { getLeaders } from "@/network/webApi/workersManagement/leader.js";
 export default {
   name: "operator",
   components: {},
@@ -306,6 +307,7 @@ export default {
         expire_time: "",
         account: "",
         creator: "",
+        leader: "",
       },
       addRules: {
         nick_name: [
@@ -326,6 +328,7 @@ export default {
       },
 
       changeForm: {
+        account: "",
         state: "active",
         expire_time: "",
         creator: "",
@@ -343,24 +346,32 @@ export default {
       leaderData: [],
       operatorData: [],
       tableHeader: [],
+      leaderDrop: [],
     };
   },
 
   methods: {
-    onSubmit() {
-      console.log("submit!");
-    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
     submitAddForm(formName) {
-      console.log(this.addForm);
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.addFormVisible = false;
-          this.addForm = [];
+          switch (formName) {
+            case "addForm":
+              console.log(this.addForm);
+              this.addFormVisible = false;
+              break;
+            case "changeForm":
+              console.log("changeForm");
+              this.changeFormVisible = false;
+              break;
+            case "searchForm":
+              console.log("searchForm");
+              break;
+          }
+          this.$refs[formName].resetFields();
           alert("submit!");
-          // this.$refs[formName].resetFields();
         } else {
           console.log("error submit!!");
           return false;
@@ -368,6 +379,7 @@ export default {
       });
     },
     handleEdit(index, row) {
+      this.changeFormVisible = true;
       console.log(index, row);
     },
     handleDelete(index, row) {
@@ -379,6 +391,7 @@ export default {
   created() {
     getOperators({ ordering: "-creator" }).then(
       (res) => {
+        console.log(res);
         this.tableHeader = res.field_header;
         this.operatorData = res.data;
         this.operatorData.forEach((item) => {
@@ -395,6 +408,14 @@ export default {
       },
       (err) => {
         alert(err);
+      }
+    );
+    getLeaders({ data_category: "drop" }).then(
+      (res) => {
+        this.leaderDrop = res.data;
+      },
+      (err) => {
+        console.log(err);
       }
     );
   },

@@ -2,7 +2,7 @@ import {
   request
 } from "../backendApiRequest.js";
 
-export function getOperators({
+export function getLeaders({
   search,
   field,
   limit = 10,
@@ -11,7 +11,7 @@ export function getOperators({
   data_category
 } = {}) {
   return request({
-    url: "/workersManagement/operator",
+    url: "/workersManagement/leader",
     method: "get",
     params: {
       search,

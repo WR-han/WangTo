@@ -261,6 +261,10 @@
   width: 120px;
 }
 
+.el-form-item--mini .el-form-item__content, .el-form-item--mini .el-form-item__label{
+  line-height: 40px !important;
+}
+
 .el-dialog .el-input__inner {
   width: 100% !important;
   margin-right: 0 !important;
