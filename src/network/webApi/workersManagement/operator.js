@@ -23,3 +23,11 @@ export function getOperators({
     }
   })
 }
+
+export function createOperators(data) {
+  return request({
+    url: "/workersManagement/operator",
+    method: "post",
+    data
+  })
+}

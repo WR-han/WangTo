@@ -78,9 +78,10 @@
             :key="index"
             :prop="item[0]"
             :label="item[1]"
+            :width="tableHeaderWidth(item[0])"
           ></el-table-column>
 
-          <el-table-column prop="creator.nick_name" label="创建者" width="180">
+          <el-table-column prop="creator.nick_name" label="创建者" width="120">
           </el-table-column>
 
           <el-table-column width="180" label="操作">
@@ -135,7 +136,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="到期时间">
+        <el-form-item label="到期时间" prop="expire_time">
           <el-col>
             <el-date-picker
               type="date"
@@ -147,8 +148,12 @@
           </el-col>
         </el-form-item>
 
-        <el-form-item label="管理员">
-          <el-select v-model="addForm.leader" filterable placeholder="请选择/输入可搜索">
+        <el-form-item label="管理员" prop="leader">
+          <el-select
+            v-model="addForm.leader"
+            filterable
+            placeholder="请选择/输入可搜索"
+          >
             <el-option
               v-for="item in leaderDrop"
               :key="item.id"
@@ -193,7 +198,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="到期时间">
+        <el-form-item label="到期时间" prop="expire_time">
           <el-col>
             <el-date-picker
               type="date"
@@ -231,6 +236,7 @@
 
 <script>
 import { getOperators } from "@/network/webApi/workersManagement/operator.js";
+import { createOperators } from "@/network/webApi/workersManagement/operator.js";
 import { getLeaders } from "@/network/webApi/workersManagement/leader.js";
 export default {
   name: "operator",
@@ -250,7 +256,6 @@ export default {
     return {
       addFormVisible: false,
       changeFormVisible: false,
-      formLabelWidth: "120px",
 
       searchForm: {
         user: "",
@@ -298,15 +303,13 @@ export default {
           },
         ],
       },
-
       addForm: {
         nick_name: "",
         password: "",
         checkPassword: "",
-        state: "active",
+        state: "invalid",
         expire_time: "",
         account: "",
-        creator: "",
         leader: "",
       },
       addRules: {
@@ -349,7 +352,6 @@ export default {
       leaderDrop: [],
     };
   },
-
   methods: {
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -360,7 +362,19 @@ export default {
           switch (formName) {
             case "addForm":
               console.log(this.addForm);
-              this.addFormVisible = false;
+              if (this.addForm.expire_time) {
+                this.addForm.state = "active";
+              }
+              createOperators(this.addForm).then(
+                (res) => {
+                  console.log(res);
+                  this.addFormVisible = false;
+                  this.resetForm(formName);
+                },
+                (err) => {
+                  alert(`创建失败 - ${err}`);
+                }
+              );
               break;
             case "changeForm":
               console.log("changeForm");
@@ -370,7 +384,6 @@ export default {
               console.log("searchForm");
               break;
           }
-          this.$refs[formName].resetFields();
           alert("submit!");
         } else {
           console.log("error submit!!");
@@ -385,13 +398,17 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     },
+    tableHeaderWidth(field) {
+      if (field == "register_time" || field == "expire_time") {
+        return 180;
+      }
+    },
   },
   watch: {},
   computed: {},
   created() {
     getOperators({ ordering: "-creator" }).then(
       (res) => {
-        console.log(res);
         this.tableHeader = res.field_header;
         this.operatorData = res.data;
         this.operatorData.forEach((item) => {
@@ -404,7 +421,6 @@ export default {
               break;
           }
         });
-        console.log(this.operatorData);
       },
       (err) => {
         alert(err);
