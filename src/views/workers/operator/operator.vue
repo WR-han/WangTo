@@ -5,56 +5,54 @@
         <span><i class="el-icon-search"></i> 数据检索</span>
       </div>
 
-      <div>
-        <el-form
-          :inline="true"
-          :model="searchForm"
-          size="mini"
-          ref="searchForm"
-          class="demo-form-inline msg-search"
-        >
-          <el-form-item label="标注员账号:" prop="user">
-            <el-input
-              v-model="searchForm.user"
-              placeholder="请输入账号名"
-            ></el-input>
-          </el-form-item>
+      <el-form
+        :inline="true"
+        :model="searchForm"
+        size="mini"
+        ref="searchForm"
+        class="demo-form-inline msg-search"
+      >
+        <el-form-item label="标注员账号:" prop="user">
+          <el-input
+            v-model="searchForm.user"
+            placeholder="请输入账号名"
+          ></el-input>
+        </el-form-item>
 
-          <el-form-item label="状态:" prop="isactive">
-            <el-select v-model="searchForm.isactive" placeholder="选择账号状态">
-              <el-option label="有效" value="true"></el-option>
-              <el-option label="无效" value="false"></el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="状态:" prop="isactive">
+          <el-select v-model="searchForm.isactive" placeholder="选择账号状态">
+            <el-option label="有效" value="true"></el-option>
+            <el-option label="无效" value="false"></el-option>
+          </el-select>
+        </el-form-item>
 
-          <el-form-item label="到期时间:" prop="validDate">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="searchForm.validDate"
-              style="width: 100%"
-            ></el-date-picker>
-          </el-form-item>
+        <el-form-item label="到期时间:" prop="validDate">
+          <el-date-picker
+            type="date"
+            placeholder="选择日期"
+            v-model="searchForm.validDate"
+            style="width: 100%"
+          ></el-date-picker>
+        </el-form-item>
 
-          <el-form-item label="注册时间:" prop="registerDate">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="searchForm.registerDate"
-              style="width: 100%"
-            ></el-date-picker>
-          </el-form-item>
+        <el-form-item label="注册时间:" prop="registerDate">
+          <el-date-picker
+            type="date"
+            placeholder="选择日期"
+            v-model="searchForm.registerDate"
+            style="width: 100%"
+          ></el-date-picker>
+        </el-form-item>
 
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('searchForm')"
-              >查询</el-button
-            >
-            <el-button type="primary" @click="resetForm('searchForm')"
-              >重置</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </div>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('searchForm')"
+            >查询</el-button
+          >
+          <el-button type="primary" @click="resetForm('searchForm')"
+            >重置</el-button
+          >
+        </el-form-item>
+      </el-form>
     </el-card>
 
     <br />
@@ -64,43 +62,48 @@
         <span><i class="el-icon-document-copy"></i> 数据详情</span>
       </div>
 
-      <div>
-        <el-button @click="addFormVisible = true" type="primary">
-          <i class="el-icon-user"></i>
-          新增标注员
-        </el-button>
-      </div>
+      <el-button @click="addFormVisible = true" type="primary">
+        <i class="el-icon-user"></i>
+        新增标注员
+      </el-button>
 
-      <div>
-        <el-table :data="operatorData" style="width: 100%">
-          <el-table-column
-            v-for="(item, index) in tableHeader"
-            :key="index"
-            :prop="item[0]"
-            :label="item[1]"
-            :width="tableHeaderWidth(item[0])"
-          ></el-table-column>
+      <el-table :data="operatorData" style="width: 100%">
+        <el-table-column
+          v-for="(item, index) in tableHeader"
+          :key="index"
+          :prop="item[0]"
+          :label="item[1]"
+          :width="tableHeaderWidth(item[0])"
+        ></el-table-column>
 
-          <el-table-column prop="creator.nick_name" label="创建者" width="120">
-          </el-table-column>
+        <el-table-column prop="creator.nick_name" label="创建者" width="120">
+        </el-table-column>
 
-          <el-table-column width="180" label="操作">
-            <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)"
-                >编辑</el-button
-              >
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
-                >删除</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
+        <el-table-column width="180" label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+              >编辑</el-button
+            >
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+              >删除</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!-- todo -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="1"
+        :page-size="1"
+        layout="total, prev, pager, next, jumper"
+        :total="400"
+      >
+      </el-pagination>
     </el-card>
 
     <el-dialog title="添加标注员" :visible.sync="addFormVisible">
@@ -152,7 +155,7 @@
           <el-select
             v-model="addForm.leader"
             filterable
-            placeholder="请选择/输入可搜索"
+            placeholder="请选择 / 输入昵称可模糊搜索"
           >
             <el-option
               v-for="item in leaderDrop"
@@ -161,7 +164,7 @@
               :value="item.id"
             >
               <span style="float: left">{{ item.nick_name }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{
+              <span style="float: right; color: #8492a6; font-size: 13px">手机号 - {{
                 item.account
               }}</span>
             </el-option>
@@ -360,28 +363,33 @@ export default {
         if (valid) {
           switch (formName) {
             case "addForm":
-              console.log(this.addForm);
               if (this.addForm.expire_time) {
                 this.addForm.state = "active";
               }
               createOperators(this.addForm).then(
                 (res) => {
                   if (res.code == 200) {
-                    switch (res.data.state) {
-                      case "active":
-                        res.data.state = "有效";
-                        break;
-                      case "invalid":
-                        res.data.state = "无效";
-                        break;
+                    this.$message.success("创建成功");
+                    if (this.resetForm.length < 10) {
+                      switch (res.data.state) {
+                        case "active":
+                          res.data.state = "有效";
+                          break;
+                        case "invalid":
+                          res.data.state = "无效";
+                          break;
+                      }
+                      this.operatorData.push(res.data);
                     }
-                    this.operatorData.push(res.data);
                     this.addFormVisible = false;
                     this.resetForm(formName);
                   }
+                  if (res.code == 403) {
+                    this.$message.warning(res.data);
+                  }
                 },
                 (err) => {
-                  alert(`创建失败 - ${err}`);
+                  this.$message.error(`创建失败 - ${err}`);
                 }
               );
               break;
@@ -393,7 +401,6 @@ export default {
               console.log("searchForm");
               break;
           }
-          alert("submit!");
         } else {
           console.log("error submit!!");
           return false;
@@ -411,6 +418,12 @@ export default {
       if (field == "register_time" || field == "expire_time") {
         return 180;
       }
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     },
   },
   watch: {},
@@ -449,16 +462,20 @@ export default {
 </script>
 
 <style>
-.operator .el-input__inner {
+.operator .el-form--inline .el-input__inner {
   width: 120px;
   margin-right: 20px;
 }
 
-.operator .el-input__suffix {
+.operator .el-form--inline .el-input__suffix {
   right: 25px !important;
 }
 
 .operator .msg-search .el-form-item {
   margin-bottom: 0;
+}
+
+.operator .el-pagination {
+  padding-top: 20px;
 }
 </style>
