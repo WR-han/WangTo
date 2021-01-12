@@ -46,7 +46,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="submitAddForm('searchForm')"
+            <el-button type="primary" @click="submitForm('searchForm')"
               >查询</el-button
             >
             <el-button type="primary" @click="resetForm('searchForm')"
@@ -178,7 +178,7 @@
         <el-button type="primary" @click="addFormVisible = false"
           >取 消</el-button
         >
-        <el-button type="primary" @click="submitAddForm('addForm')"
+        <el-button type="primary" @click="submitForm('addForm')"
           >确 定</el-button
         >
       </div>
@@ -225,14 +225,13 @@
         <el-button type="primary" @click="changeFormVisible = false"
           >取 消</el-button
         >
-        <el-button type="primary" @click="submitAddForm('changeForm')"
+        <el-button type="primary" @click="submitForm('changeForm')"
           >确 定</el-button
         >
       </div>
     </el-dialog>
   </div>
 </template>
-
 
 <script>
 import { getOperators } from "@/network/webApi/workersManagement/operator.js";
@@ -308,7 +307,7 @@ export default {
         password: "",
         checkPassword: "",
         state: "invalid",
-        expire_time: "",
+        expire_time: null,
         account: "",
         leader: "",
       },
@@ -325,7 +324,7 @@ export default {
           { required: true, message: "密码为必填项", trigger: "blur" },
         ],
         checkPassword: [{ validator: checkPassword, trigger: "blur" }],
-        creator: [
+        leader: [
           { required: true, message: "管理员为必填项", trigger: "blur" },
         ],
       },
@@ -356,7 +355,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    submitAddForm(formName) {
+    submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           switch (formName) {
@@ -367,9 +366,19 @@ export default {
               }
               createOperators(this.addForm).then(
                 (res) => {
-                  console.log(res);
-                  this.addFormVisible = false;
-                  this.resetForm(formName);
+                  if (res.code == 200) {
+                    switch (res.data.state) {
+                      case "active":
+                        res.data.state = "有效";
+                        break;
+                      case "invalid":
+                        res.data.state = "无效";
+                        break;
+                    }
+                    this.operatorData.push(res.data);
+                    this.addFormVisible = false;
+                    this.resetForm(formName);
+                  }
                 },
                 (err) => {
                   alert(`创建失败 - ${err}`);

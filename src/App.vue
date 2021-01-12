@@ -176,7 +176,7 @@ export default {
     logout() {
       localStorage.removeItem("token");
       this.$store.state.token = null;
-      this.$router.replace("/login");
+      location.reload()
     },
   },
   watch: {},

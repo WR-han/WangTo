@@ -30,6 +30,7 @@
                 placeholder="请输入用户密码"
                 show-password
                 v-model="loginForm.password"
+                autocomplete="new-password"
               ></el-input>
             </el-form-item>
           </el-form>
@@ -83,9 +84,9 @@ export default {
                   if (this.loginForm.username == this.loginForm.password) {
                     this.$notify({
                       title: "提醒",
-                      message: "您的账号密码为初始密码，请点击\"账户信息\"修改",
+                      message: '您的账号密码为初始密码，请点击"账户信息"修改',
                       duration: 0,
-                      type: 'warning'
+                      type: "warning",
                     });
                   }
                   // this.$store.commit("login", succ.data.token);

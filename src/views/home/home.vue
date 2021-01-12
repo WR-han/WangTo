@@ -1,7 +1,10 @@
 <template>
   <el-row :gutter="10" class="home">
+
     <el-col :md="16" class="home-left">
+
       <el-row :gutter="10" class="home-left-top">
+
         <el-button
           type="primary"
           @click="changePage('/project/dataManagement')"
@@ -9,6 +12,7 @@
           <i class="el-icon-folder-add"></i>
           数据上传
         </el-button>
+
         <el-button
           type="primary"
           @click="changePage('/project/projectManagement')"
@@ -16,8 +20,11 @@
           <i class="el-icon-edit-outline"></i>
           创建项目
         </el-button>
+
       </el-row>
+
       <el-row :gutter="10" class="home-left-down">
+
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <!-- <el-tab-pane label="临期完结项目" name="home-fy-first">临期完结项目</el-tab-pane> -->
           <el-tab-pane name="home-fy-first">
@@ -59,7 +66,7 @@
                 </el-row>
               </el-row>
             </a>
-            <a href="">
+            <!-- <a href="">
               <el-row>
                 <el-row>
                   <el-col :md="20" style="text-align: left"> 项目名 </el-col>
@@ -243,14 +250,16 @@
                   </el-col>
                 </el-row>
               </el-row>
-            </a>
+            </a> -->
           </el-tab-pane>
+
           <el-tab-pane name="home-fy-second">
             <span slot="label"
               ><i class="el-icon-sunrise-1"></i> 临期未执行完毕</span
             >
             临期未执行完毕
           </el-tab-pane>
+          
           <el-tab-pane name="home-fy-third">
             <span slot="label"
               ><i class="el-icon-sunrise"></i> 临期未审核完毕</span
@@ -258,9 +267,13 @@
             临期未审核完毕
           </el-tab-pane>
         </el-tabs>
+
       </el-row>
+
     </el-col>
+
     <el-col :md="8" class="home-right">
+
       <el-row class="home-right-top">
         <el-card class="box-card" shadow="hover">
           <span>费用详情</span>
@@ -269,6 +282,7 @@
           </el-button>
         </el-card>
       </el-row>
+
       <el-row class="home-right-center">
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
@@ -286,6 +300,7 @@
           </div>
         </el-card>
       </el-row>
+
       <el-row class="home-right-down">
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
@@ -326,7 +341,9 @@
           </div>
         </el-card>
       </el-row>
+
     </el-col>
+
   </el-row>
 </template>
 
@@ -433,7 +450,7 @@ export default {
 
 .home-left-down .el-progress-bar__innerText {
   opacity: 0;
-  transition: 0.3s;
+  /* transition: 0.3s; */
   font-weight: 700;
 }
 
