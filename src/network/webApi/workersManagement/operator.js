@@ -24,10 +24,21 @@ export function getOperators({
   })
 }
 
-export function createOperators(data) {
+export function createOperators(data, isUpdateTable) {
   return request({
     url: "/workersManagement/operator",
     method: "post",
+    data,
+    params: {
+      "isUpdateTable": isUpdateTable
+    }
+  })
+}
+
+export function changeOperator(data) {
+  return request({
+    url: "/workersManagement/operator",
+    method: "put",
     data
   })
 }

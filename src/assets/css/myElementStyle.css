@@ -230,7 +230,7 @@
 }
 
 .el-table {
-  margin-top: 20px !important;
+  margin-top: 20px;
   background-color: rgba(0, 0, 0, 0) !important;
 }
 
@@ -261,7 +261,8 @@
   width: 120px;
 }
 
-.el-form-item--mini .el-form-item__content, .el-form-item--mini .el-form-item__label{
+.el-form-item--mini .el-form-item__content,
+.el-form-item--mini .el-form-item__label {
   line-height: 40px !important;
 }
 

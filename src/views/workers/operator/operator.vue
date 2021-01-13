@@ -67,6 +67,15 @@
         新增标注员
       </el-button>
 
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="1"
+        :page-size="10"
+        layout="total, prev, pager, next, jumper"
+        :total="operatorCount"
+      >
+      </el-pagination>
+
       <el-table :data="operatorData" style="width: 100%">
         <el-table-column
           v-for="(item, index) in tableHeader"
@@ -76,7 +85,7 @@
           :width="tableHeaderWidth(item[0])"
         ></el-table-column>
 
-        <el-table-column prop="creator.nick_name" label="创建者" width="120">
+        <el-table-column prop="leader.nick_name" label="创建者" width="120">
         </el-table-column>
 
         <el-table-column width="180" label="操作">
@@ -93,17 +102,6 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <!-- todo -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="1"
-        :page-size="1"
-        layout="total, prev, pager, next, jumper"
-        :total="400"
-      >
-      </el-pagination>
     </el-card>
 
     <el-dialog title="添加标注员" :visible.sync="addFormVisible">
@@ -143,7 +141,7 @@
           <el-col>
             <el-date-picker
               type="date"
-              placeholder="不填写默认为未激活 / 无效"
+              placeholder="不填写视为未激活"
               v-model="addForm.expire_time"
               style="width: 100%"
               :picker-options="pickerOptions"
@@ -155,7 +153,7 @@
           <el-select
             v-model="addForm.leader"
             filterable
-            placeholder="请选择 / 输入昵称可模糊搜索"
+            placeholder="输入昵称可模糊搜索"
           >
             <el-option
               v-for="item in leaderDrop"
@@ -164,9 +162,9 @@
               :value="item.id"
             >
               <span style="float: left">{{ item.nick_name }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">手机号 - {{
-                item.account
-              }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px"
+                >手机号 - {{ item.account }}</span
+              >
             </el-option>
           </el-select>
         </el-form-item>
@@ -194,34 +192,48 @@
         :rules="changeRules"
         status-icon
       >
-        <el-form-item label="用户名称" prop="nick_name">
+        <el-form-item label="修改手机号" prop="account">
           <el-input
-            placeholder="请输入用户名称"
-            v-model="addForm.nick_name"
+            placeholder="手机号即为登陆账号"
+            v-model="changeForm.account"
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="到期时间" prop="expire_time">
+        <el-form-item label="修改到期时间" prop="expire_time">
           <el-col>
             <el-date-picker
               type="date"
-              placeholder="不填写默认为未激活 / 无效"
-              v-model="addForm.expire_time"
+              placeholder="请选择到期时间"
+              v-model="changeForm.expire_time"
               style="width: 100%"
               :picker-options="pickerOptions"
             ></el-date-picker>
           </el-col>
         </el-form-item>
 
-        <!-- <el-select v-model="value" clearable placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+        <el-form-item label="管理员" prop="leader">
+          <el-select
+            v-model="changeForm.leader"
+            filterable
+            placeholder="输入昵称可模糊搜索"
           >
-          </el-option>
-        </el-select> -->
+            <el-option
+              v-for="item in leaderDrop"
+              :key="item.id"
+              :label="item.nick_name"
+              :value="item.id"
+            >
+              <span style="float: left">{{ item.nick_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px"
+                >手机号 - {{ item.account }}</span
+              >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item style="display: none" prop="id">
+          <el-input v-model="changeForm.id"></el-input>
+        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -239,6 +251,7 @@
 <script>
 import { getOperators } from "@/network/webApi/workersManagement/operator.js";
 import { createOperators } from "@/network/webApi/workersManagement/operator.js";
+import { changeOperator } from "@/network/webApi/workersManagement/operator.js";
 import { getLeaders } from "@/network/webApi/workersManagement/leader.js";
 export default {
   name: "operator",
@@ -255,9 +268,30 @@ export default {
       }
     };
 
+    let nickName = (rule, value, callback) => {
+      // console.log(rule, value, callback);
+      let reg = new RegExp("^[A-Za-z\u4e00-\u9fa5]+$");
+      if (!reg.test(value)) {
+        callback(new Error("请输入汉字或英文字母"));
+      } else {
+        callback();
+      }
+    };
+
+    let accountNum = (rule, value, callback) => {
+      let reg = new RegExp("^[0-9]+$");
+      if (!reg.test(value)) {
+        callback(new Error("请输入数字"));
+      } else {
+        callback();
+      }
+    };
+
     return {
       addFormVisible: false,
       changeFormVisible: false,
+      operatorOffset: 0,
+      operatorCount: 0,
 
       searchForm: {
         user: "",
@@ -318,8 +352,10 @@ export default {
         nick_name: [
           { required: true, message: "用户名称为必填项", trigger: "blur" },
           { min: 2, message: "名称需大于两位", trigger: "blur" },
+          { validator: nickName, trigger: "blur" },
         ],
         account: [
+          { validator: accountNum, trigger: "blur" },
           { required: true, message: "用户手机号为必填项", trigger: "blur" },
           { max: 11, min: 11, message: "请输入11位手机号码", trigger: "blur" },
         ],
@@ -336,19 +372,27 @@ export default {
         account: "",
         state: "active",
         expire_time: "",
-        creator: "",
+        leader: "",
+        id: "",
       },
       changeRules: {
         account: [
+          { validator: accountNum, trigger: "blur" },
           { required: true, message: "用户手机号为必填项", trigger: "blur" },
           { max: 11, min: 11, message: "请输入11位手机号码", trigger: "blur" },
         ],
-        creator: [
+        leader: [
           { required: true, message: "管理员为必填项", trigger: "blur" },
+        ],
+        expire_time: [
+          {
+            required: true,
+            message: "到期时间为必填，账户状态可单独选择",
+            trigger: "blur",
+          },
         ],
       },
 
-      leaderData: [],
       operatorData: [],
       tableHeader: [],
       leaderDrop: [],
@@ -366,35 +410,43 @@ export default {
               if (this.addForm.expire_time) {
                 this.addForm.state = "active";
               }
-              createOperators(this.addForm).then(
-                (res) => {
-                  if (res.code == 200) {
-                    this.$message.success("创建成功");
-                    if (this.resetForm.length < 10) {
-                      switch (res.data.state) {
-                        case "active":
-                          res.data.state = "有效";
-                          break;
-                        case "invalid":
-                          res.data.state = "无效";
-                          break;
-                      }
-                      this.operatorData.push(res.data);
+              createOperators(this.addForm, this.isUpdateTable).then((res) => {
+                if (res.code == 200) {
+                  this.operatorCount += 1;
+                  this.$message.success("创建成功");
+                  if (this.isUpdateTable) {
+                    switch (res.data.state) {
+                      case "active":
+                        res.data.state = "有效";
+                        break;
+                      case "invalid":
+                        res.data.state = "无效";
+                        break;
                     }
-                    this.addFormVisible = false;
-                    this.resetForm(formName);
+                    this.operatorData.push(res.data);
                   }
-                  if (res.code == 403) {
-                    this.$message.warning(res.data);
-                  }
-                },
-                (err) => {
-                  this.$message.error(`创建失败 - ${err}`);
+                  this.addFormVisible = false;
+                  this.resetForm(formName);
                 }
-              );
+                if (res.code == 403) {
+                  this.$message.warning(res.data);
+                }
+              });
               break;
             case "changeForm":
-              console.log("changeForm");
+              console.log(this.changeForm);
+              changeOperator(this.changeForm).then((res) => {
+                console.log(res);
+                switch (res.state) {
+                  case "active":
+                    res.state = "有效";
+                    break;
+                  case "invalid":
+                    res.state = "无效";
+                    break;
+                }
+                this.operatorData = res;
+              });
               this.changeFormVisible = false;
               break;
             case "searchForm":
@@ -408,8 +460,12 @@ export default {
       });
     },
     handleEdit(index, row) {
-      this.changeFormVisible = true;
       console.log(index, row);
+      this.changeFormVisible = true;
+      this.changeForm.account = row.account;
+      this.changeForm.leader = row.leader.id;
+      this.changeForm.expire_time = row.expire_time;
+      this.changeForm.id = row.id;
     },
     handleDelete(index, row) {
       console.log(index, row);
@@ -419,21 +475,42 @@ export default {
         return 180;
       }
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.operatorOffset = 10 * (val - 1);
+      getOperators({ ordering: "-leader", offset: this.operatorOffset }).then(
+        (res) => {
+          res.data.forEach((item) => {
+            switch (item.state) {
+              case "active":
+                item.state = "有效";
+                break;
+              case "invalid":
+                item.state = "无效";
+                break;
+            }
+          });
+          this.operatorData = res.data;
+        }
+      );
     },
   },
   watch: {},
-  computed: {},
+  computed: {
+    isUpdateTable() {
+      if (this.operatorData.length < 10) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   created() {
-    getOperators({ ordering: "-creator" }).then(
+    getOperators({ ordering: "-leader", offset: this.operatorOffset }).then(
       (res) => {
+        console.log(res);
+        this.operatorCount = res.count;
         this.tableHeader = res.field_header;
-        this.operatorData = res.data;
-        this.operatorData.forEach((item) => {
+        res.data.forEach((item) => {
           switch (item.state) {
             case "active":
               item.state = "有效";
@@ -443,19 +520,12 @@ export default {
               break;
           }
         });
-      },
-      (err) => {
-        alert(err);
+        this.operatorData = res.data;
       }
     );
-    getLeaders({ data_category: "drop" }).then(
-      (res) => {
-        this.leaderDrop = res.data;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    getLeaders({ data_category: "drop" }).then((res) => {
+      this.leaderDrop = res.data;
+    });
   },
   mounted() {},
 };
@@ -477,5 +547,29 @@ export default {
 
 .operator .el-pagination {
   padding-top: 20px;
+}
+
+.operator .el-dialog {
+  width: 500px;
+}
+
+.operator .el-pager li.active {
+  color: var(--color-corners);
+}
+
+.operator .el-pager li:hover {
+  color: var(--color-text-hover);
+}
+
+.operator .el-pagination button:hover {
+  color: var(--color-text-hover);
+}
+
+.operator .el-pagination button:disabled {
+  color: #ff4b3d;
+}
+
+.operator .el-table {
+  margin-top: 10px;
 }
 </style>
