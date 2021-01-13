@@ -31,8 +31,12 @@ export function request(config) {
           $router.replace("/login")
         }
       }
-      if (res.data.token){ // token更新
-        $store.commit("login", res.data.token);
+      if (res.data.token) { // token更新
+        console.log(res.data.identity);
+        $store.commit("login", {
+          "token": res.data.token,
+          "identity": res.data.identity
+        });
       }
       return res.data
     },

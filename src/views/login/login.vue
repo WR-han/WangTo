@@ -19,10 +19,10 @@
             :rules="loginRules"
             status-icon
           >
-            <el-form-item prop="username">
+            <el-form-item prop="account">
               <el-input
-                placeholder="请输入用户名称"
-                v-model="loginForm.username"
+                placeholder="请输入手机号/账号"
+                v-model="loginForm.account"
               ></el-input>
             </el-form-item>
             <el-form-item prop="password">
@@ -52,15 +52,25 @@ export default {
   components: {},
   props: {},
   data() {
+    let accountNum = (rule, value, callback) => {
+      let reg = new RegExp("^[0-9]+$");
+      if (!reg.test(value)) {
+        callback(new Error("请输入数字"));
+      } else {
+        callback();
+      }
+    };
+
     return {
       loginForm: {
-        username: "",
+        account: "",
         password: "",
       },
       loginRules: {
-        username: [
-          { required: true, message: "用户名称为必填项", trigger: "blur" },
-          { min: 2, message: "名称需大于两位", trigger: "blur" },
+        account: [
+          { validator: accountNum, trigger: "blur" },
+          { required: true, message: "用户手机号为必填项", trigger: "blur" },
+          { max: 11, min: 11, message: "请输入11位手机号码", trigger: "blur" },
         ],
         password: [
           { required: true, message: "密码为必填项", trigger: "blur" },
@@ -75,13 +85,11 @@ export default {
     loginSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.loginForm);
-          Login(this.loginForm.username, this.loginForm.password).then(
+          Login(this.loginForm.account, this.loginForm.password).then(
             (succ) => {
-              // console.log(succ);
               switch (succ.code) {
                 case 200:
-                  if (this.loginForm.username == this.loginForm.password) {
+                  if (this.loginForm.account == this.loginForm.password) {
                     this.$notify({
                       title: "提醒",
                       message: '您的账号密码为初始密码，请点击"账户信息"修改',
@@ -89,7 +97,6 @@ export default {
                       type: "warning",
                     });
                   }
-                  // this.$store.commit("login", succ.data.token);
                   this.$router.replace("/home");
                   this.$message({
                     message: "登陆成功",
@@ -97,24 +104,14 @@ export default {
                   });
                   break;
                 case 401:
-                  console.log(succ.msg);
                   this.$message({
                     message: succ.data,
                     type: "error",
                   });
                   break;
               }
-            },
-            (err) => {
-              alert(`网络错误 - ${err}`);
             }
           );
-          // this.$store.commit("login", "succ.data.token");
-          // this.$router.replace("/home");
-          // this.$message({
-          //   message: "登陆成功",
-          //   type: "success",
-          // });
         } else {
           console.log("error submit!!");
           return false;

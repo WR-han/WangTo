@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import $vuex from "../store/index.js"
+import $store from "../store/index.js"
 
 Vue.use(VueRouter)
 
@@ -119,8 +119,9 @@ router.beforeEach((to, from, next) => {
   if (to.fullPath != "/login") {
     if (!localStorage.token) {
       router.replace("/login")
-    } else if (!$vuex.state.token) {
-      $vuex.state.token = localStorage.token
+    } else if (!$store.state.token) {
+      $store.state.token = localStorage.token
+      $store.state.identity = localStorage.identity
       next()
     } else {
       next()

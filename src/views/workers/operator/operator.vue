@@ -12,9 +12,9 @@
         ref="searchForm"
         class="demo-form-inline msg-search"
       >
-        <el-form-item label="标注员账号:" prop="user">
+        <el-form-item label="标注员账号:" prop="account">
           <el-input
-            v-model="searchForm.user"
+            v-model="searchForm.account"
             placeholder="请输入账号名"
           ></el-input>
         </el-form-item>
@@ -32,6 +32,7 @@
             placeholder="选择日期"
             v-model="searchForm.validDate"
             style="width: 100%"
+            value-format="yyyy-MM-dd"
           ></el-date-picker>
         </el-form-item>
 
@@ -41,6 +42,7 @@
             placeholder="选择日期"
             v-model="searchForm.registerDate"
             style="width: 100%"
+            value-format="yyyy-MM-dd"
           ></el-date-picker>
         </el-form-item>
 
@@ -145,7 +147,10 @@
               v-model="addForm.expire_time"
               style="width: 100%"
               :picker-options="pickerOptions"
-            ></el-date-picker>
+              value-format="yyyy-MM-dd HH:mm:ss"
+            >
+              ></el-date-picker
+            >
           </el-col>
         </el-form-item>
 
@@ -207,11 +212,18 @@
               v-model="changeForm.expire_time"
               style="width: 100%"
               :picker-options="pickerOptions"
-            ></el-date-picker>
+              value-format="yyyy-MM-dd HH:mm:ss"
+            >
+              ></el-date-picker
+            >
           </el-col>
         </el-form-item>
 
-        <el-form-item label="管理员" prop="leader">
+        <el-form-item
+          v-if="$store.identity === 'admin'"
+          label="管理员"
+          prop="leader"
+        >
           <el-select
             v-model="changeForm.leader"
             filterable
@@ -294,7 +306,7 @@ export default {
       operatorCount: 0,
 
       searchForm: {
-        user: "",
+        account: "",
         isactive: "",
         validDate: "",
         registerDate: "",
@@ -436,15 +448,17 @@ export default {
             case "changeForm":
               console.log(this.changeForm);
               changeOperator(this.changeForm).then((res) => {
-                console.log(res);
-                switch (res.state) {
-                  case "active":
-                    res.state = "有效";
-                    break;
-                  case "invalid":
-                    res.state = "无效";
-                    break;
-                }
+                res.forEach((item) => {
+                  switch (item.state) {
+                    case "active":
+                      item.state = "有效";
+                      break;
+                    case "invalid":
+                      item.state = "无效";
+                      break;
+                  }
+                });
+
                 this.operatorData = res;
               });
               this.changeFormVisible = false;
@@ -460,7 +474,6 @@ export default {
       });
     },
     handleEdit(index, row) {
-      console.log(index, row);
       this.changeFormVisible = true;
       this.changeForm.account = row.account;
       this.changeForm.leader = row.leader.id;
@@ -477,21 +490,22 @@ export default {
     },
     handleCurrentChange(val) {
       this.operatorOffset = 10 * (val - 1);
-      getOperators({ ordering: "-leader", offset: this.operatorOffset }).then(
-        (res) => {
-          res.data.forEach((item) => {
-            switch (item.state) {
-              case "active":
-                item.state = "有效";
-                break;
-              case "invalid":
-                item.state = "无效";
-                break;
-            }
-          });
-          this.operatorData = res.data;
-        }
-      );
+      getOperators({
+        ordering: "register_time",
+        offset: this.operatorOffset,
+      }).then((res) => {
+        res.data.forEach((item) => {
+          switch (item.state) {
+            case "active":
+              item.state = "有效";
+              break;
+            case "invalid":
+              item.state = "无效";
+              break;
+          }
+        });
+        this.operatorData = res.data;
+      });
     },
   },
   watch: {},
@@ -505,24 +519,25 @@ export default {
     },
   },
   created() {
-    getOperators({ ordering: "-leader", offset: this.operatorOffset }).then(
-      (res) => {
-        console.log(res);
-        this.operatorCount = res.count;
-        this.tableHeader = res.field_header;
-        res.data.forEach((item) => {
-          switch (item.state) {
-            case "active":
-              item.state = "有效";
-              break;
-            case "invalid":
-              item.state = "无效";
-              break;
-          }
-        });
-        this.operatorData = res.data;
-      }
-    );
+    getOperators({
+      ordering: "register_time",
+      offset: this.operatorOffset,
+    }).then((res) => {
+      console.log(res);
+      this.operatorCount = res.count;
+      this.tableHeader = res.field_header;
+      res.data.forEach((item) => {
+        switch (item.state) {
+          case "active":
+            item.state = "有效";
+            break;
+          case "invalid":
+            item.state = "无效";
+            break;
+        }
+      });
+      this.operatorData = res.data;
+    });
     getLeaders({ data_category: "drop" }).then((res) => {
       this.leaderDrop = res.data;
     });
