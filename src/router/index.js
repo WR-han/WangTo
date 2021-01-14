@@ -8,6 +8,7 @@ const home = () => import("views/home/home.vue")
 const login = () => import("views/login/login.vue")
 const inspector = () => import("views/workers/inspector/inspector.vue")
 const operator = () => import("views/workers/operator/operator.vue")
+const leader = () => import("views/workers/leader/leader.vue")
 const dataManagement = () => import("views/project/dataManagement/dataManagement.vue")
 const projectManagement = () => import("views/project/projectManagement/projectManagement.vue")
 const templateManagement = () => import("views/project/templateManagement/templateManagement.vue")
@@ -44,6 +45,13 @@ const routes = [{
     //   title: "质检员管理"
     // }
     children: [{
+        name: "leader",
+        path: "leader",
+        component: leader,
+        meta: {
+          title: "管理员管理"
+        }
+      }, {
         name: "inspector",
         path: "inspector",
         component: inspector,

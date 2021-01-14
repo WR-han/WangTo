@@ -23,3 +23,27 @@ export function getLeaders({
     }
   })
 }
+
+export function createLeaders(data) {
+  return request({
+    url: "/workersManagement/leader",
+    method: "post",
+    data
+  })
+}
+
+export function changeLeader(data) {
+  return request({
+    url: "/workersManagement/leader",
+    method: "put",
+    data
+  })
+}
+
+export function deleteLeader(data) {
+  return request({
+    url: "/workersManagement/leader",
+    method: "delete",
+    data
+  })
+}

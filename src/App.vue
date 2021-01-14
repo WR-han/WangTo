@@ -70,7 +70,7 @@
               <span slot="title">首页</span>
             </el-menu-item>
 
-            <el-menu-item index="/statistical" route>
+            <el-menu-item index="/statistical">
               <i class="el-icon-receiving"></i>
               <span slot="title">项目概况</span>
             </el-menu-item>
@@ -102,6 +102,10 @@
                 <span slot="title">人员管理</span>
               </template>
               <el-menu-item-group>
+                <el-menu-item v-if="$store.state.identity === 'admin'" index="/workersManagement/leader">
+                  <i class="el-icon-user"></i>
+                  管理员管理
+                </el-menu-item>
                 <el-menu-item index="/workersManagement/operator">
                   <i class="el-icon-edit"></i>
                   标注员管理
@@ -176,7 +180,7 @@ export default {
     logout() {
       localStorage.removeItem("token");
       this.$store.state.token = null;
-      location.reload()
+      location.reload();
     },
   },
   watch: {},

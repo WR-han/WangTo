@@ -24,14 +24,11 @@ export function getOperators({
   })
 }
 
-export function createOperators(data, isUpdateTable) {
+export function createOperators(data) {
   return request({
     url: "/workersManagement/operator",
     method: "post",
-    data,
-    params: {
-      "isUpdateTable": isUpdateTable
-    }
+    data
   })
 }
 
@@ -39,6 +36,14 @@ export function changeOperator(data) {
   return request({
     url: "/workersManagement/operator",
     method: "put",
+    data
+  })
+}
+
+export function deleteOperator(data) {
+  return request({
+    url: "/workersManagement/operator",
+    method: "delete",
     data
   })
 }
